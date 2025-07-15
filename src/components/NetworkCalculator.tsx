@@ -156,10 +156,10 @@ const NetworkCalculator = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-2xl">
             <Calculator className="h-6 w-6 text-primary" />
-            Cloud Networking Calculator
+            Cloud Based Networking Calculator
           </CardTitle>
           <CardDescription className="text-lg">
-            Calculate subnetting, IP allocation, and estimate cloud networking costs across AWS, Azure, and GCP
+            Calculate subnetting, IP allocation, and estimate cloud based networking costs across AWS, Azure, and GCP
           </CardDescription>
         </CardHeader>
       </Card>

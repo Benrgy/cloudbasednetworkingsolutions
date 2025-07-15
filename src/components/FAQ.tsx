@@ -8,7 +8,7 @@ const FAQ = () => {
     {
       id: "subnetting-basics",
       icon: <Network className="h-5 w-5" />,
-      question: "What is subnetting and why is it important for cloud networking?",
+      question: "What is subnetting and why is it important for cloud based networking?",
       answer: `Subnetting is a fundamental network segmentation technique that divides a larger network into smaller, more manageable subnetworks (subnets). In cloud environments, proper subnetting is crucial for several reasons that directly impact performance, security, and cost optimization.
 
       **Understanding Subnetting Fundamentals**
@@ -80,12 +80,12 @@ const FAQ = () => {
     {
       id: "cloud-costs",
       icon: <DollarSign className="h-5 w-5" />,
-      question: "What factors influence cloud networking costs and how can I optimize them?",
-      answer: `Cloud networking costs are influenced by multiple interconnected factors that vary significantly across providers and usage patterns. Understanding these cost drivers and implementing optimization strategies can result in substantial savings while maintaining or improving network performance and reliability.
+      question: "What factors influence cloud based networking costs and how can I optimize them?",
+      answer: `Cloud based networking costs are influenced by multiple interconnected factors that vary significantly across providers and usage patterns. Understanding these cost drivers and implementing optimization strategies can result in substantial savings while maintaining or improving network performance and reliability.
 
-      **Primary Cost Drivers in Cloud Networking**
+      **Primary Cost Drivers in Cloud Based Networking**
       
-      Data transfer costs typically represent the largest component of cloud networking expenses. These charges apply to data movement between regions, availability zones, and external networks. Each cloud provider has different pricing models: AWS charges for outbound data transfer and cross-region traffic, Azure has complex pricing based on zones and regions, while Google Cloud offers more generous free tiers for certain types of transfers.
+      Data transfer costs typically represent the largest component of cloud based networking expenses. These charges apply to data movement between regions, availability zones, and external networks. Each cloud provider has different pricing models: AWS charges for outbound data transfer and cross-region traffic, Azure has complex pricing based on zones and regions, while Google Cloud offers more generous free tiers for certain types of transfers.
       
       **Bandwidth and Traffic Pattern Analysis**
       
@@ -164,12 +164,12 @@ const FAQ = () => {
     {
       id: "multi-cloud-networking",
       icon: <Cloud className="h-5 w-5" />,
-      question: "How do I design effective multi-cloud networking strategies?",
-      answer: `Multi-cloud networking strategies require careful architectural planning, deep understanding of provider-specific services, and robust management frameworks to ensure seamless connectivity, optimal performance, and cost efficiency across diverse cloud environments. Organizations adopt multi-cloud approaches for various reasons including risk mitigation, vendor negotiation leverage, and leveraging best-of-breed services from different providers.
+      question: "How do I design effective multi-cloud based networking strategies?",
+      answer: `Multi-cloud based networking strategies require careful architectural planning, deep understanding of provider-specific services, and robust management frameworks to ensure seamless connectivity, optimal performance, and cost efficiency across diverse cloud environments. Organizations adopt multi-cloud approaches for various reasons including risk mitigation, vendor negotiation leverage, and leveraging best-of-breed services from different providers.
 
       **Strategic Multi-Cloud Architecture Planning**
       
-      Effective multi-cloud networking begins with comprehensive architecture planning that considers connectivity requirements, data flow patterns, latency requirements, and compliance constraints. Establish clear criteria for workload placement across different cloud providers based on factors such as geographic proximity to users, specific service capabilities, cost considerations, and regulatory requirements. Create a service mesh architecture that provides consistent networking, security, and observability across all cloud environments.
+      Effective multi-cloud based networking begins with comprehensive architecture planning that considers connectivity requirements, data flow patterns, latency requirements, and compliance constraints. Establish clear criteria for workload placement across different cloud providers based on factors such as geographic proximity to users, specific service capabilities, cost considerations, and regulatory requirements. Create a service mesh architecture that provides consistent networking, security, and observability across all cloud environments.
       
       **Connectivity Options and Technologies**
       
@@ -206,8 +206,8 @@ const FAQ = () => {
     {
       id: "troubleshooting-network-issues",
       icon: <HelpCircle className="h-5 w-5" />,
-      question: "What are common cloud networking issues and how do I troubleshoot them?",
-      answer: `Cloud networking troubleshooting requires systematic approaches, comprehensive monitoring tools, and deep understanding of cloud provider networking models. Network issues in cloud environments can manifest in various ways including connectivity failures, performance degradation, security breaches, and cost anomalies. Effective troubleshooting methodologies enable rapid issue identification and resolution while minimizing business impact.
+      question: "What are common cloud based networking issues and how do I troubleshoot them?",
+      answer: `Cloud based networking troubleshooting requires systematic approaches, comprehensive monitoring tools, and deep understanding of cloud provider networking models. Network issues in cloud environments can manifest in various ways including connectivity failures, performance degradation, security breaches, and cost anomalies. Effective troubleshooting methodologies enable rapid issue identification and resolution while minimizing business impact.
 
       **Systematic Troubleshooting Methodology**
       
@@ -256,7 +256,7 @@ const FAQ = () => {
             Frequently Asked Questions
           </CardTitle>
           <CardDescription className="text-lg max-w-3xl mx-auto">
-            Comprehensive answers to common cloud networking questions, optimized for technical accuracy and practical implementation guidance
+            Comprehensive answers to common cloud based networking questions, optimized for technical accuracy and practical implementation guidance
           </CardDescription>
         </CardHeader>
       </Card>

@@ -72,7 +72,7 @@ const Index = () => {
           <div className="text-center space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
-                Cloud Networking
+                Cloud Based Networking
                 <span className="block bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                   Solutions Calculator
                 </span>
@@ -116,7 +116,7 @@ const Index = () => {
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold">How to Use</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get started with our cloud networking tools in four simple steps
+              Get started with our cloud based networking tools in four simple steps
             </p>
           </div>
           
@@ -202,7 +202,7 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  Built-in recommendations following cloud networking best practices and security guidelines
+                  Built-in recommendations following cloud based networking best practices and security guidelines
                 </CardDescription>
               </CardContent>
             </Card>
@@ -224,10 +224,10 @@ const Index = () => {
             <div className="space-y-4">
               <h3 className="text-xl font-bold flex items-center gap-2">
                 <Calculator className="h-6 w-6" />
-                Cloud Network Calculator
+                Cloud Based Network Calculator
               </h3>
               <p className="text-background/70">
-                Professional cloud networking tools for modern infrastructure planning and optimization.
+                Professional cloud based networking tools for modern infrastructure planning and optimization.
               </p>
             </div>
             
@@ -263,7 +263,7 @@ const Index = () => {
           </div>
           
           <div className="border-t border-background/20 mt-8 pt-8 text-center text-background/70">
-            <p>&copy; 2024 Cloud Networking Solutions Calculator. Built with modern web technologies for professional network planning.</p>
+            <p>&copy; 2024 Cloud Based Networking Solutions Calculator. Built with modern web technologies for professional network planning.</p>
           </div>
         </div>
       </footer>
