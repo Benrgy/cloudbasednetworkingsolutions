@@ -6,9 +6,32 @@ import { X, Zap, TrendingUp, Shield } from "lucide-react";
 interface GoogleAdsPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  onInteraction?: (action: string) => void;
+  variant?: string;
+  timeOnPage?: number;
+  scrollProgress?: number;
 }
 
-const GoogleAdsPopup: React.FC<GoogleAdsPopupProps> = ({ isOpen, onClose }) => {
+const GoogleAdsPopup: React.FC<GoogleAdsPopupProps> = ({ 
+  isOpen, 
+  onClose, 
+  onInteraction,
+  variant = 'default',
+  timeOnPage = 0,
+  scrollProgress = 0
+}) => {
+  
+  const handleInteraction = (action: string) => {
+    onInteraction?.(action);
+    if (action === 'cta_click') {
+      // Track high-value interaction
+      (window as any).gtag?.('event', 'conversion', {
+        'send_to': 'AW-XXXXXXX/XXXXX',
+        'value': 1.0,
+        'currency': 'USD'
+      });
+    }
+  };
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md bg-gradient-secondary border-primary/20 shadow-strong">
@@ -52,13 +75,37 @@ const GoogleAdsPopup: React.FC<GoogleAdsPopupProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className="flex gap-2">
-            <Button variant="hero" className="flex-1" onClick={onClose}>
-              Learn More
+            <Button 
+              variant="hero" 
+              className="flex-1" 
+              onClick={() => {
+                handleInteraction('cta_click');
+                onClose();
+              }}
+            >
+              {variant === 'urgent' ? 'Get Started Now' : 'Learn More'}
             </Button>
-            <Button variant="outline" onClick={onClose}>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                handleInteraction('dismiss');
+                onClose();
+              }}
+            >
               Maybe Later
             </Button>
           </div>
+
+          {variant === 'data_driven' && (
+            <div className="text-xs text-center space-y-1">
+              <div className="text-muted-foreground">
+                Time on page: {Math.floor(timeOnPage)}s • Progress: {Math.floor(scrollProgress)}%
+              </div>
+              <div className="text-accent">
+                🎯 Personalized recommendations available
+              </div>
+            </div>
+          )}
 
           <div className="text-xs text-muted-foreground text-center">
             Professional consulting services • No obligation

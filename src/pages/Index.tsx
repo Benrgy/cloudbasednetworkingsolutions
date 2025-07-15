@@ -2,49 +2,56 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Cloud, Calculator, Network, Zap, ArrowRight, CheckCircle, TrendingUp, Shield } from "lucide-react";
-import NetworkCalculator from "@/components/NetworkCalculator";
+import AdvancedNetworkCalculator from "@/components/AdvancedNetworkCalculator";
 import GoogleAdsPopup from "@/components/GoogleAdsPopup";
 import FAQ from "@/components/FAQ";
 import Navigation from "@/components/Navigation";
+import { ProfessionalTooltip } from "@/components/ProfessionalTooltips";
+import { useAnalytics } from "@/components/AnalyticsTracker";
+import UserFeedbackSystem from "@/components/UserFeedbackSystem";
+import PopupOptimizer from "@/components/PopupOptimizer";
 
 const Index = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const { trackUserEngagement } = useAnalytics();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      trackUserEngagement('navigation', `scroll_to_${sectionId}`);
     }
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
+    // Track page view on mount
+    trackUserEngagement('page', 'view');
+  }, [trackUserEngagement]);
 
   const features = [
     {
       icon: <Network className="h-6 w-6" />,
       title: "Subnet Calculator",
-      description: "Calculate network addresses, broadcast addresses, and host capacity with precision"
+      description: "Calculate network addresses, broadcast addresses, and host capacity with precision",
+      tooltip: "Advanced VLSM and CIDR calculations with real-time validation"
     },
     {
       icon: <Zap className="h-6 w-6" />,
       title: "IP Allocation Planning",
-      description: "Optimize IP address distribution across your cloud infrastructure"
+      description: "Optimize IP address distribution across your cloud infrastructure",
+      tooltip: "Intelligent IP planning with utilization tracking and recommendations"
     },
     {
       icon: <Cloud className="h-6 w-6" />,
       title: "Multi-Cloud Cost Estimation",
-      description: "Compare networking costs across AWS, Azure, and Google Cloud Platform"
+      description: "Compare networking costs across AWS, Azure, and Google Cloud Platform",
+      tooltip: "Real-time pricing data with cost optimization recommendations"
     },
     {
       icon: <Shield className="h-6 w-6" />,
       title: "Security Best Practices",
-      description: "Built-in recommendations for secure cloud network design"
+      description: "Built-in recommendations for secure cloud network design",
+      tooltip: "Automated security scoring and compliance recommendations"
     }
   ];
 
@@ -114,15 +121,22 @@ const Index = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12">
               {features.map((feature, index) => (
-                <div key={index} className="text-center group">
-                  <div className="bg-white/10 rounded-full p-4 w-16 h-16 mx-auto mb-3 group-hover:bg-white/20 transition-smooth">
-                    <div className="text-white flex items-center justify-center h-full">
-                      {feature.icon}
+                <ProfessionalTooltip
+                  key={index}
+                  content={feature.tooltip}
+                  type="info"
+                  side="bottom"
+                >
+                  <div className="text-center group cursor-help">
+                    <div className="bg-white/10 rounded-full p-4 w-16 h-16 mx-auto mb-3 group-hover:bg-white/20 transition-smooth">
+                      <div className="text-white flex items-center justify-center h-full">
+                        {feature.icon}
+                      </div>
                     </div>
+                    <h3 className="text-white font-semibold text-lg mb-2">{feature.title}</h3>
+                    <p className="text-white/70 text-sm">{feature.description}</p>
                   </div>
-                  <h3 className="text-white font-semibold text-lg mb-2">{feature.title}</h3>
-                  <p className="text-white/70 text-sm">{feature.description}</p>
-                </div>
+                </ProfessionalTooltip>
               ))}
             </div>
           </div>
@@ -175,7 +189,7 @@ const Index = () => {
               Professional tools for subnet calculation, IP allocation, and cost estimation
             </p>
           </div>
-          <NetworkCalculator />
+          <AdvancedNetworkCalculator />
         </div>
       </section>
 
@@ -334,11 +348,28 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Google Ads Popup */}
-      <GoogleAdsPopup 
-        isOpen={showPopup} 
-        onClose={() => setShowPopup(false)} 
-      />
+      {/* Optimized Popup System */}
+      <PopupOptimizer
+        config={{
+          initialDelay: 3000,
+          showFrequency: 'session',
+          maxDisplaysPerSession: 1,
+          exitIntentEnabled: true,
+          scrollThreshold: 50,
+          timeOnPageThreshold: 30
+        }}
+        onShow={() => trackUserEngagement('popup', 'show')}
+        onClose={() => trackUserEngagement('popup', 'close')}
+        testVariant="A"
+      >
+        <GoogleAdsPopup 
+          isOpen={showPopup} 
+          onClose={() => setShowPopup(false)} 
+        />
+      </PopupOptimizer>
+
+      {/* User Feedback System */}
+      <UserFeedbackSystem />
     </div>
   );
 };
