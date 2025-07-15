@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Cloud, Calculator, Network, Zap, ArrowRight, CheckCircle, TrendingUp, Shield } from "lucide-react";
 import AdvancedNetworkCalculator from "@/components/AdvancedNetworkCalculator";
-import GoogleAdsPopup from "@/components/GoogleAdsPopup";
 import FAQ from "@/components/FAQ";
 import Navigation from "@/components/Navigation";
 import { ProfessionalTooltip } from "@/components/ProfessionalTooltips";
 import { useAnalytics } from "@/components/AnalyticsTracker";
 import UserFeedbackSystem from "@/components/UserFeedbackSystem";
-import PopupOptimizer from "@/components/PopupOptimizer";
 
 const Index = () => {
-  const [showPopup, setShowPopup] = useState(false);
   const { trackUserEngagement } = useAnalytics();
 
   const scrollToSection = (sectionId: string) => {
@@ -347,26 +344,6 @@ const Index = () => {
           </div>
         </div>
       </footer>
-
-      {/* Optimized Popup System */}
-      <PopupOptimizer
-        config={{
-          initialDelay: 3000,
-          showFrequency: 'session',
-          maxDisplaysPerSession: 1,
-          exitIntentEnabled: true,
-          scrollThreshold: 50,
-          timeOnPageThreshold: 30
-        }}
-        onShow={() => trackUserEngagement('popup', 'show')}
-        onClose={() => trackUserEngagement('popup', 'close')}
-        testVariant="A"
-      >
-        <GoogleAdsPopup 
-          isOpen={showPopup} 
-          onClose={() => setShowPopup(false)} 
-        />
-      </PopupOptimizer>
 
       {/* User Feedback System */}
       <UserFeedbackSystem />
