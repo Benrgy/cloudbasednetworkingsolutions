@@ -49,7 +49,7 @@ export const PopupOptimizer: React.FC<PopupOptimizerProps> = ({
     C: { ...finalConfig, initialDelay: 15000 }  // 15 seconds
   };
 
-  const activeConfig = variants[testVariant];
+  const activeConfig = variants[testVariant] || finalConfig;
 
   useEffect(() => {
     // Check if popup should be shown based on frequency settings
