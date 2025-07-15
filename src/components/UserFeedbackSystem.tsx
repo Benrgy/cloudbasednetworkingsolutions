@@ -139,6 +139,7 @@ const UserFeedbackSystem = () => {
             type="button"
             onClick={() => setFeedbackData(prev => ({ ...prev, rating: star }))}
             className="transition-colors"
+            aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
           >
             <Star 
               className={`h-5 w-5 ${
@@ -160,6 +161,7 @@ const UserFeedbackSystem = () => {
           onClick={() => setIsOpen(true)}
           className="rounded-full h-14 w-14 shadow-lg"
           size="icon"
+          aria-label="Open feedback form"
         >
           <MessageSquare className="h-6 w-6" />
         </Button>
@@ -180,6 +182,7 @@ const UserFeedbackSystem = () => {
               variant="ghost" 
               size="sm"
               onClick={() => setIsOpen(false)}
+              aria-label="Close feedback form"
             >
               ×
             </Button>
@@ -215,6 +218,7 @@ const UserFeedbackSystem = () => {
                           ? 'border-primary bg-primary/5' 
                           : 'border-muted hover:border-primary/50'
                       }`}
+                      aria-label={`Select ${type.label} feedback type`}
                     >
                       <div className="flex items-center gap-2">
                         <Icon className="h-4 w-4" />

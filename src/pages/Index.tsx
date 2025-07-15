@@ -280,6 +280,7 @@ const Index = () => {
                   <button 
                     onClick={() => scrollToSection('calculator')}
                     className="hover:text-background/90 transition-colors"
+                    aria-label="Navigate to Subnet Calculator section"
                   >
                     Subnet Calculator
                   </button>
@@ -288,6 +289,7 @@ const Index = () => {
                   <button 
                     onClick={() => scrollToSection('calculator')}
                     className="hover:text-background/90 transition-colors"
+                    aria-label="Navigate to IP Allocation section"
                   >
                     IP Allocation
                   </button>
@@ -296,6 +298,7 @@ const Index = () => {
                   <button 
                     onClick={() => scrollToSection('calculator')}
                     className="hover:text-background/90 transition-colors"
+                    aria-label="Navigate to Cost Estimation section"
                   >
                     Cost Estimation
                   </button>
@@ -321,6 +324,7 @@ const Index = () => {
                   <button 
                     onClick={() => scrollToSection('faq')}
                     className="hover:text-background/90 transition-colors"
+                    aria-label="Navigate to Documentation section"
                   >
                     Documentation
                   </button>
@@ -329,6 +333,7 @@ const Index = () => {
                   <button 
                     onClick={() => scrollToSection('benefits')}
                     className="hover:text-background/90 transition-colors"
+                    aria-label="Navigate to Best Practices section"
                   >
                     Best Practices
                   </button>
