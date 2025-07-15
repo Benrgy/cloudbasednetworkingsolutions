@@ -5,9 +5,17 @@ import { Cloud, Calculator, Network, Zap, ArrowRight, CheckCircle, TrendingUp, S
 import NetworkCalculator from "@/components/NetworkCalculator";
 import GoogleAdsPopup from "@/components/GoogleAdsPopup";
 import FAQ from "@/components/FAQ";
+import Navigation from "@/components/Navigation";
 
 const Index = () => {
   const [showPopup, setShowPopup] = useState(false);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -65,8 +73,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
+      
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero py-20 lg:py-32">
+      <section className="relative overflow-hidden bg-gradient-hero py-20 lg:py-32 mt-16">{/* Added mt-16 for fixed nav */}
         <div className="absolute inset-0 bg-black/5"></div>
         <div className="relative container mx-auto px-4">
           <div className="text-center space-y-8">
@@ -84,11 +94,20 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button variant="hero" size="xl" className="group">
+              <Button 
+                variant="hero" 
+                size="xl" 
+                className="group"
+                onClick={() => document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 Start Calculating
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button variant="secondary" size="xl">
+              <Button 
+                variant="secondary" 
+                size="xl"
+                onClick={() => document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 View Documentation
               </Button>
             </div>
@@ -111,7 +130,7 @@ const Index = () => {
       </section>
 
       {/* How to Use Section */}
-      <section className="py-20 bg-muted/30">
+      <section id="how-to-use" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold">How to Use</h2>
@@ -148,14 +167,20 @@ const Index = () => {
       </section>
 
       {/* Calculator Section */}
-      <section className="py-20">
+      <section id="calculator" className="py-20">
         <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold">Cloud Based Networking Calculator</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Professional tools for subnet calculation, IP allocation, and cost estimation
+            </p>
+          </div>
           <NetworkCalculator />
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-muted/30">
+      <section id="benefits" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold">Why Choose Our Calculator</h2>
@@ -211,8 +236,14 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20">
+      <section id="faq" className="py-20">
         <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold">Frequently Asked Questions</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Comprehensive guides and answers to common cloud based networking questions
+            </p>
+          </div>
           <FAQ />
         </div>
       </section>
@@ -234,9 +265,30 @@ const Index = () => {
             <div className="space-y-4">
               <h4 className="font-semibold">Tools</h4>
               <ul className="space-y-2 text-background/70">
-                <li>Subnet Calculator</li>
-                <li>IP Allocation</li>
-                <li>Cost Estimation</li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('calculator')}
+                    className="hover:text-background/90 transition-colors"
+                  >
+                    Subnet Calculator
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('calculator')}
+                    className="hover:text-background/90 transition-colors"
+                  >
+                    IP Allocation
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('calculator')}
+                    className="hover:text-background/90 transition-colors"
+                  >
+                    Cost Estimation
+                  </button>
+                </li>
                 <li>Security Analysis</li>
               </ul>
             </div>
@@ -254,8 +306,22 @@ const Index = () => {
             <div className="space-y-4">
               <h4 className="font-semibold">Resources</h4>
               <ul className="space-y-2 text-background/70">
-                <li>Documentation</li>
-                <li>Best Practices</li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('faq')}
+                    className="hover:text-background/90 transition-colors"
+                  >
+                    Documentation
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => scrollToSection('benefits')}
+                    className="hover:text-background/90 transition-colors"
+                  >
+                    Best Practices
+                  </button>
+                </li>
                 <li>API Reference</li>
                 <li>Support</li>
               </ul>

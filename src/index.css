@@ -6,16 +6,16 @@
 
 @layer base {
   :root {
-    /* Base colors - Darker background for better contrast */
-    --background: 215 25% 8%;
+    /* Base colors - Medium dark background for better balance */
+    --background: 215 25% 18%;
     --foreground: 215 15% 95%;
 
-    /* Card system - Dark cards with good contrast */
-    --card: 215 25% 12%;
+    /* Card system - Lighter dark cards */
+    --card: 215 25% 22%;
     --card-foreground: 215 15% 95%;
 
     /* Popover system */
-    --popover: 215 25% 12%;
+    --popover: 215 25% 22%;
     --popover-foreground: 215 15% 95%;
 
     /* Primary - Deep cloud blue for trust and professionalism */
@@ -27,8 +27,8 @@
     --secondary: 189 35% 25%;
     --secondary-foreground: 215 15% 95%;
 
-    /* Muted tones - Dark grays for better readability */
-    --muted: 215 16% 15%;
+    /* Muted tones - Lighter grays */
+    --muted: 215 16% 25%;
     --muted-foreground: 215 13% 70%;
 
     /* Accent - Bright teal for highlights */
@@ -43,9 +43,9 @@
     --warning: 45 93% 58%;
     --warning-foreground: 215 25% 27%;
 
-    /* Form elements - Dark theme inputs */
-    --border: 215 14% 25%;
-    --input: 215 14% 18%;
+    /* Form elements - Lighter inputs */
+    --border: 215 14% 35%;
+    --input: 215 14% 28%;
     --ring: 217 91% 60%;
 
     /* Gradients for modern appeal */
