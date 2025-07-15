@@ -6,34 +6,34 @@
 
 @layer base {
   :root {
-    /* Base colors - Clean whites and dark slate */
-    --background: 0 0% 100%;
-    --foreground: 215 25% 27%;
+    /* Base colors - Darker background for better contrast */
+    --background: 215 25% 8%;
+    --foreground: 215 15% 95%;
 
-    /* Card system - Subtle elevation */
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    /* Card system - Dark cards with good contrast */
+    --card: 215 25% 12%;
+    --card-foreground: 215 15% 95%;
 
     /* Popover system */
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover: 215 25% 12%;
+    --popover-foreground: 215 15% 95%;
 
     /* Primary - Deep cloud blue for trust and professionalism */
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 217 91% 70%;
 
-    /* Secondary - Complementary teal for accents */
-    --secondary: 189 85% 94%;
-    --secondary-foreground: 215 25% 27%;
+    /* Secondary - Dark teal for accents */
+    --secondary: 189 35% 25%;
+    --secondary-foreground: 215 15% 95%;
 
-    /* Muted tones - Sophisticated grays */
-    --muted: 215 16% 95%;
-    --muted-foreground: 215 13% 55%;
+    /* Muted tones - Dark grays for better readability */
+    --muted: 215 16% 15%;
+    --muted-foreground: 215 13% 70%;
 
-    /* Accent - Tech teal for highlights */
-    --accent: 189 95% 75%;
-    --accent-foreground: 215 25% 27%;
+    /* Accent - Bright teal for highlights */
+    --accent: 189 75% 55%;
+    --accent-foreground: 215 15% 95%;
 
     /* Status colors */
     --destructive: 0 84% 60%;
@@ -43,9 +43,9 @@
     --warning: 45 93% 58%;
     --warning-foreground: 215 25% 27%;
 
-    /* Form elements */
-    --border: 215 14% 89%;
-    --input: 215 14% 89%;
+    /* Form elements - Dark theme inputs */
+    --border: 215 14% 25%;
+    --input: 215 14% 18%;
     --ring: 217 91% 60%;
 
     /* Gradients for modern appeal */
