@@ -304,11 +304,36 @@ const AdvancedNetworkCalculator = () => {
           { cidr: "/28", purpose: "Directory Services", hosts: 14 }
         ],
         estimatedSavings: 2000
+      },
+      {
+        name: "High-Performance Computing",
+        description: "Optimized for compute-intensive workloads with high-bandwidth requirements",
+        subnets: [
+          { cidr: "/24", purpose: "Compute Cluster", hosts: 254 },
+          { cidr: "/26", purpose: "Storage Network", hosts: 62 },
+          { cidr: "/28", purpose: "Management Network", hosts: 14 }
+        ],
+        estimatedSavings: 1500
+      },
+      {
+        name: "Development/Staging Environment",
+        description: "Cost-optimized setup for development and testing environments",
+        subnets: [
+          { cidr: "/26", purpose: "Development Servers", hosts: 62 },
+          { cidr: "/27", purpose: "Testing Environment", hosts: 30 },
+          { cidr: "/28", purpose: "CI/CD Pipeline", hosts: 14 }
+        ],
+        estimatedSavings: 600
       }
     ];
     
     setScenarios(scenarios);
   };
+
+  // Initialize scenarios on component mount
+  useEffect(() => {
+    generateAdvancedScenarios();
+  }, []);
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-8">
@@ -709,12 +734,151 @@ const AdvancedNetworkCalculator = () => {
                 Advanced analytics and recommendations for network cost reduction
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                <TrendingUp className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                <p className="text-lg">Advanced optimization analytics coming soon!</p>
-                <p>This section will provide AI-powered cost optimization recommendations based on your usage patterns.</p>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 border-green-200 dark:border-green-800">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg text-green-700 dark:text-green-300">Reserved Instances</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">30-60%</div>
+                    <p className="text-sm text-green-600 dark:text-green-400 mb-3">Potential savings</p>
+                    <p className="text-xs text-muted-foreground">Commit to 1-3 year terms for consistent workloads</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 border-blue-200 dark:border-blue-800">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg text-blue-700 dark:text-blue-300">Spot Instances</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">70-90%</div>
+                    <p className="text-sm text-blue-600 dark:text-blue-400 mb-3">Cost reduction</p>
+                    <p className="text-xs text-muted-foreground">For fault-tolerant, flexible workloads</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 border-purple-200 dark:border-purple-800">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg text-purple-700 dark:text-purple-300">Auto Scaling</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">20-40%</div>
+                    <p className="text-sm text-purple-600 dark:text-purple-400 mb-3">Efficiency gain</p>
+                    <p className="text-xs text-muted-foreground">Scale resources based on demand</p>
+                  </CardContent>
+                </Card>
               </div>
+
+              <Separator />
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-primary" />
+                  Network Security Optimizations
+                </h3>
+                <div className="grid gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                      <div>
+                        <h4 className="font-medium">VPC Endpoints</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Replace NAT Gateway traffic with VPC endpoints for AWS services. Save up to $32/month per NAT Gateway.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                      <div>
+                        <h4 className="font-medium">Security Groups Optimization</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Minimize open ports and use specific IP ranges instead of 0.0.0.0/0 to improve security posture.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+                      <div>
+                        <h4 className="font-medium">Network ACLs</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Implement subnet-level security controls for defense in depth. Consider stateless rules for high-throughput scenarios.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  Data Transfer Optimizations
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Card className="border-orange-200 dark:border-orange-800">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-base">CloudFront CDN</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Reduce data transfer costs by up to 50% for frequently accessed content
+                      </p>
+                      <div className="text-sm">
+                        <strong>Best for:</strong> Static assets, API responses, media files
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="border-indigo-200 dark:border-indigo-800">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-base">Direct Connect</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Predictable network costs for high-volume data transfer
+                      </p>
+                      <div className="text-sm">
+                        <strong>Break-even:</strong> ~1TB/month depending on region
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {costEstimate && (
+                <>
+                  <Separator />
+                  <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                    <h3 className="text-lg font-semibold text-primary mb-3">
+                      Personalized Recommendations
+                    </h3>
+                    <div className="space-y-2">
+                      {costEstimate.recommendations.map((rec, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <div className="w-1 h-1 bg-primary rounded-full mt-2"></div>
+                          <p className="text-sm">{rec}</p>
+                        </div>
+                      ))}
+                      {costEstimate.savingsOpportunities > 0 && (
+                        <div className="mt-4 p-3 bg-green-50 dark:bg-green-950 rounded border border-green-200 dark:border-green-800">
+                          <div className="text-green-700 dark:text-green-300 font-medium">
+                            💰 Potential Monthly Savings: ${costEstimate.savingsOpportunities.toFixed(2)}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

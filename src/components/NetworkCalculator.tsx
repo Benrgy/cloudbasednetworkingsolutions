@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { Calculator, Network, DollarSign, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -280,11 +281,122 @@ const NetworkCalculator = () => {
                 Plan and visualize IP address allocation for your network infrastructure
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                <Network className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                <p className="text-lg">IP Allocation tools coming soon!</p>
-                <p>This feature will help you plan VLAN segmentation and IP address distribution.</p>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="border-blue-200 dark:border-blue-800">
+                  <CardHeader>
+                    <CardTitle className="text-lg text-blue-700 dark:text-blue-300">Public Subnets</CardTitle>
+                    <CardDescription>Internet-facing resources</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-2 bg-blue-50 dark:bg-blue-950 rounded">
+                        <span className="text-sm">Web Servers</span>
+                        <Badge variant="outline" className="font-mono">10.0.1.0/24</Badge>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-blue-50 dark:bg-blue-950 rounded">
+                        <span className="text-sm">Load Balancers</span>
+                        <Badge variant="outline" className="font-mono">10.0.2.0/26</Badge>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-blue-50 dark:bg-blue-950 rounded">
+                        <span className="text-sm">NAT Gateways</span>
+                        <Badge variant="outline" className="font-mono">10.0.3.0/28</Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-green-200 dark:border-green-800">
+                  <CardHeader>
+                    <CardTitle className="text-lg text-green-700 dark:text-green-300">Private Subnets</CardTitle>
+                    <CardDescription>Internal resources</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-2 bg-green-50 dark:bg-green-950 rounded">
+                        <span className="text-sm">Application Servers</span>
+                        <Badge variant="outline" className="font-mono">10.0.10.0/24</Badge>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-green-50 dark:bg-green-950 rounded">
+                        <span className="text-sm">Database Servers</span>
+                        <Badge variant="outline" className="font-mono">10.0.11.0/26</Badge>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-green-50 dark:bg-green-950 rounded">
+                        <span className="text-sm">Cache Layer</span>
+                        <Badge variant="outline" className="font-mono">10.0.12.0/28</Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">VLAN Segmentation Recommendations</h3>
+                <div className="grid gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                      <div>
+                        <h4 className="font-medium">DMZ (Demilitarized Zone)</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          VLAN 10: Public-facing services like web servers and reverse proxies. Use /24 networks for flexibility.
+                        </p>
+                        <Badge variant="outline" className="mt-2 font-mono">10.0.10.0/24</Badge>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                      <div>
+                        <h4 className="font-medium">Internal Applications</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          VLAN 20: Application servers and middleware. Isolated from direct internet access.
+                        </p>
+                        <Badge variant="outline" className="mt-2 font-mono">10.0.20.0/24</Badge>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                      <div>
+                        <h4 className="font-medium">Database Tier</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          VLAN 30: Database servers with strict access controls. Minimum required IP addresses.
+                        </p>
+                        <Badge variant="outline" className="mt-2 font-mono">10.0.30.0/26</Badge>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                      <div>
+                        <h4 className="font-medium">Management Network</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          VLAN 40: Infrastructure management, monitoring, and administrative access.
+                        </p>
+                        <Badge variant="outline" className="mt-2 font-mono">10.0.40.0/28</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">💡 Best Practices</h4>
+                <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
+                  <li>• Reserve first and last subnets for future expansion</li>
+                  <li>• Use consistent CIDR blocks across environments</li>
+                  <li>• Plan for 3x current capacity to accommodate growth</li>
+                  <li>• Document IP assignments and maintain an IP address management (IPAM) system</li>
+                </ul>
               </div>
             </CardContent>
           </Card>
