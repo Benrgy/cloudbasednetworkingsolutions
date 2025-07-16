@@ -8,6 +8,8 @@ import Navigation from "@/components/Navigation";
 import { ProfessionalTooltip } from "@/components/ProfessionalTooltips";
 import { useAnalytics } from "@/components/AnalyticsTracker";
 import UserFeedbackSystem from "@/components/UserFeedbackSystem";
+import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Index = () => {
   const { trackUserEngagement } = useAnalytics();
@@ -259,6 +261,15 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Newsletter Section */}
+      <section id="newsletter" className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <NewsletterSignup />
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-foreground text-background py-12">
         <div className="container mx-auto px-4">
@@ -352,6 +363,9 @@ const Index = () => {
 
       {/* User Feedback System */}
       <UserFeedbackSystem />
+      
+      {/* Onboarding Walkthrough */}
+      <OnboardingWalkthrough />
     </div>
   );
 };
