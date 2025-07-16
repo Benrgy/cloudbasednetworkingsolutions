@@ -234,9 +234,7 @@ const Index = () => {
       </section>
 
       {/* Newsletter Section */}
-      <section id="newsletter" className="py-20 bg-muted/30">
-        
-      </section>
+      
 
       {/* Footer */}
       <footer className="bg-foreground text-background py-12">
