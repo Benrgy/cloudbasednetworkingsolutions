@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,67 +9,78 @@ import Navigation from "@/components/Navigation";
 import { ProfessionalTooltip } from "@/components/ProfessionalTooltips";
 import { useAnalytics } from "@/components/AnalyticsTracker";
 import UserFeedbackSystem from "@/components/UserFeedbackSystem";
+
 const Index = () => {
-  const {
-    trackUserEngagement
-  } = useAnalytics();
+  const { trackUserEngagement } = useAnalytics();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       trackUserEngagement('navigation', `scroll_to_${sectionId}`);
     }
   };
+  
   useEffect(() => {
-    // Track page view on mount
     trackUserEngagement('page', 'view');
   }, [trackUserEngagement]);
-  const features = [{
-    icon: <Network className="h-6 w-6" />,
-    title: "Subnet Calculator",
-    description: "Calculate network addresses, broadcast addresses, and host capacity with precision",
-    tooltip: "Advanced VLSM and CIDR calculations with real-time validation"
-  }, {
-    icon: <Zap className="h-6 w-6" />,
-    title: "IP Allocation Planning",
-    description: "Optimize IP address distribution across your cloud infrastructure",
-    tooltip: "Intelligent IP planning with utilization tracking and recommendations"
-  }, {
-    icon: <Cloud className="h-6 w-6" />,
-    title: "Multi-Cloud Cost Estimation",
-    description: "Compare networking costs across AWS, Azure, and Google Cloud Platform",
-    tooltip: "Real-time pricing data with cost optimization recommendations"
-  }, {
-    icon: <Shield className="h-6 w-6" />,
-    title: "Security Best Practices",
-    description: "Built-in recommendations for secure cloud network design",
-    tooltip: "Automated security scoring and compliance recommendations"
-  }];
-  const usageSteps = [{
-    step: "1",
-    title: "Select Your Tool",
-    description: "Choose from subnet calculator, IP allocation, or cost estimation"
-  }, {
-    step: "2",
-    title: "Input Parameters",
-    description: "Enter your network requirements, IP ranges, and cloud preferences"
-  }, {
-    step: "3",
-    title: "Get Results",
-    description: "Receive detailed calculations, recommendations, and cost estimates"
-  }, {
-    step: "4",
-    title: "Optimize & Plan",
-    description: "Use insights to optimize your cloud network architecture"
-  }];
-  return <div className="min-h-screen bg-background">
+
+  const features = [
+    {
+      icon: <Network className="h-6 w-6" />,
+      title: "Subnet Calculator",
+      description: "Calculate network addresses, broadcast addresses, and host capacity with precision",
+      tooltip: "Advanced VLSM and CIDR calculations with real-time validation"
+    },
+    {
+      icon: <Zap className="h-6 w-6" />,
+      title: "IP Allocation Planning", 
+      description: "Optimize IP address distribution across your cloud infrastructure", 
+      tooltip: "Intelligent IP planning with utilization tracking and recommendations"
+    },
+    {
+      icon: <Cloud className="h-6 w-6" />,
+      title: "Multi-Cloud Cost Estimation",
+      description: "Compare networking costs across AWS, Azure, and Google Cloud Platform",
+      tooltip: "Real-time pricing data with cost optimization recommendations"
+    },
+    {
+      icon: <Shield className="h-6 w-6" />,
+      title: "Security Best Practices",
+      description: "Built-in recommendations for secure cloud network design", 
+      tooltip: "Automated security scoring and compliance recommendations"
+    }
+  ];
+
+  const usageSteps = [
+    {
+      step: "1",
+      title: "Select Your Tool",
+      description: "Choose from subnet calculator, IP allocation, or cost estimation"
+    },
+    {
+      step: "2", 
+      title: "Input Parameters",
+      description: "Enter your network requirements, IP ranges, and cloud preferences"
+    },
+    {
+      step: "3",
+      title: "Get Results", 
+      description: "Receive detailed calculations, recommendations, and cost estimates"
+    },
+    {
+      step: "4",
+      title: "Optimize & Plan",
+      description: "Use insights to optimize your cloud network architecture"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero py-20 lg:py-32 mt-16">{/* Added mt-16 for fixed nav */}
+      <section className="relative overflow-hidden bg-gradient-hero py-20 lg:py-32 mt-16" role="banner">
         <div className="absolute inset-0 bg-black/5"></div>
         <div className="relative container mx-auto px-4">
           <div className="text-center space-y-8">
@@ -86,21 +98,29 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button variant="hero" size="xl" className="group" onClick={() => document.getElementById('calculator')?.scrollIntoView({
-              behavior: 'smooth'
-            })}>
+              <Button 
+                variant="hero" 
+                size="xl" 
+                className="group" 
+                onClick={() => scrollToSection('calculator')}
+                aria-label="Navigate to network calculator section"
+              >
                 Start Calculating
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button variant="secondary" size="xl" onClick={() => document.getElementById('faq')?.scrollIntoView({
-              behavior: 'smooth'
-            })}>
+              <Button 
+                variant="secondary" 
+                size="xl" 
+                onClick={() => scrollToSection('faq')}
+                aria-label="Navigate to documentation and FAQ section"
+              >
                 View Documentation
               </Button>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12">
-              {features.map((feature, index) => <ProfessionalTooltip key={index} content={feature.tooltip} type="info" side="bottom">
+              {features.map((feature, index) => (
+                <ProfessionalTooltip key={index} content={feature.tooltip} type="info" side="bottom">
                   <div className="text-center group cursor-help">
                     <div className="bg-white/10 rounded-full p-4 w-16 h-16 mx-auto mb-3 group-hover:bg-white/20 transition-smooth">
                       <div className="text-white flex items-center justify-center h-full">
@@ -110,24 +130,26 @@ const Index = () => {
                     <h3 className="text-white font-semibold text-lg mb-2">{feature.title}</h3>
                     <p className="text-white/70 text-sm">{feature.description}</p>
                   </div>
-                </ProfessionalTooltip>)}
+                </ProfessionalTooltip>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* How to Use Section */}
-      <section id="how-to-use" className="bg-muted/30 py-[70px]">
+      <section id="how-to-use" className="bg-muted/30 py-[70px]" role="region" aria-labelledby="how-to-use-heading">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">How to Use</h2>
+            <h2 id="how-to-use-heading" className="text-3xl md:text-4xl font-bold">How to Use Our Tools</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Get started with our cloud based networking tools in four simple steps
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {usageSteps.map((step, index) => <Card key={index} className="relative overflow-hidden group hover:shadow-medium transition-smooth">
+            {usageSteps.map((step, index) => (
+              <Card key={index} className="relative overflow-hidden group hover:shadow-medium transition-smooth">
                 <CardHeader>
                   <div className="flex items-center gap-4 mb-2">
                     <div className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg">
@@ -141,19 +163,22 @@ const Index = () => {
                     {step.description}
                   </CardDescription>
                 </CardContent>
-                {index < usageSteps.length - 1 && <div className="hidden lg:block absolute -right-4 top-1/2 transform -translate-y-1/2 text-primary">
+                {index < usageSteps.length - 1 && (
+                  <div className="hidden lg:block absolute -right-4 top-1/2 transform -translate-y-1/2 text-primary">
                     <ArrowRight className="h-6 w-6" />
-                  </div>}
-              </Card>)}
+                  </div>
+                )}
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Calculator Section */}
-      <section id="calculator" className="py-20">
+      <section id="calculator" className="py-20" role="region" aria-labelledby="calculator-heading">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">Cloud Based Networking Calculator</h2>
+            <h2 id="calculator-heading" className="text-3xl md:text-4xl font-bold">Network Calculator Tools</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Professional tools for subnet calculation, IP allocation, and cost estimation
             </p>
@@ -163,10 +188,10 @@ const Index = () => {
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" className="py-20 bg-muted/30">
+      <section id="benefits" className="py-20 bg-muted/30" role="region" aria-labelledby="benefits-heading">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">Why Choose Our Calculator</h2>
+            <h2 id="benefits-heading" className="text-3xl md:text-4xl font-bold">Why Choose Our Calculator</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Professional tools designed for network engineers and cloud architects
             </p>
@@ -219,10 +244,10 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20">
+      <section id="faq" className="py-20" role="region" aria-labelledby="faq-heading">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold">Frequently Asked Questions</h2>
+            <h2 id="faq-heading" className="text-3xl md:text-4xl font-bold">Frequently Asked Questions</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Comprehensive guides and answers to common cloud based networking questions
             </p>
@@ -231,11 +256,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      
-
       {/* Footer */}
-      <footer className="bg-foreground text-background py-12">
+      <footer className="bg-foreground text-background py-12" role="contentinfo">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
@@ -252,17 +274,29 @@ const Index = () => {
               <h4 className="font-semibold">Tools</h4>
               <ul className="space-y-2 text-background/70">
                 <li>
-                  <button onClick={() => scrollToSection('calculator')} className="hover:text-background/90 transition-colors" aria-label="Navigate to Subnet Calculator section">
+                  <button 
+                    onClick={() => scrollToSection('calculator')} 
+                    className="hover:text-background/90 transition-colors" 
+                    aria-label="Navigate to Subnet Calculator section"
+                  >
                     Subnet Calculator
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection('calculator')} className="hover:text-background/90 transition-colors" aria-label="Navigate to IP Allocation section">
+                  <button 
+                    onClick={() => scrollToSection('calculator')} 
+                    className="hover:text-background/90 transition-colors" 
+                    aria-label="Navigate to IP Allocation section"
+                  >
                     IP Allocation
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection('calculator')} className="hover:text-background/90 transition-colors" aria-label="Navigate to Cost Estimation section">
+                  <button 
+                    onClick={() => scrollToSection('calculator')} 
+                    className="hover:text-background/90 transition-colors" 
+                    aria-label="Navigate to Cost Estimation section"
+                  >
                     Cost Estimation
                   </button>
                 </li>
@@ -284,12 +318,20 @@ const Index = () => {
               <h4 className="font-semibold">Resources</h4>
               <ul className="space-y-2 text-background/70">
                 <li>
-                  <button onClick={() => scrollToSection('faq')} className="hover:text-background/90 transition-colors" aria-label="Navigate to Documentation section">
+                  <button 
+                    onClick={() => scrollToSection('faq')} 
+                    className="hover:text-background/90 transition-colors" 
+                    aria-label="Navigate to Documentation section"
+                  >
                     Documentation
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => scrollToSection('benefits')} className="hover:text-background/90 transition-colors" aria-label="Navigate to Best Practices section">
+                  <button 
+                    onClick={() => scrollToSection('benefits')} 
+                    className="hover:text-background/90 transition-colors" 
+                    aria-label="Navigate to Best Practices section"
+                  >
                     Best Practices
                   </button>
                 </li>
@@ -305,8 +347,9 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* User Feedback System */}
       <UserFeedbackSystem />
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
