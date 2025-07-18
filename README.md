@@ -1,22 +1,20 @@
-# Welcome to your Lovable project
+# Cloud Based Networking Solutions Calculator
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/6a0fbb10-be3b-4822-8572-8891b4679d42
+**URL**: https://cloudbasednetworkingsolutions.com/
 
-## How can I edit this code?
+## About This Project
 
-There are several ways of editing your application.
+Professional cloud-based networking solutions calculator for subnet planning, IP allocation, multi-cloud cost estimation, and security optimization. Advanced tools for network engineers and infrastructure professionals.
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6a0fbb10-be3b-4822-8572-8891b4679d42) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Subnet Calculator with CIDR notation
+- IP Allocation Planning
+- Multi-Cloud Cost Estimation (AWS, Azure, GCP)
+- Security Best Practices & Scoring
+- Professional Network Analysis Tools
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -60,14 +58,10 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/6a0fbb10-be3b-4822-8572-8891b4679d42) and click on Share -> Publish.
+This project is deployed at: https://cloudbasednetworkingsolutions.com/
 
-## Can I connect a custom domain to my Lovable project?
+## Contributing
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

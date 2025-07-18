@@ -1,0 +1,23 @@
+{
+  "name": "Cloud Based Networking Solutions Calculator",
+  "short_name": "NetworkCalc",
+  "description": "Professional cloud-based networking calculator for subnet planning, IP allocation, multi-cloud cost estimation, and security optimization",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#007bff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "en"
+}
