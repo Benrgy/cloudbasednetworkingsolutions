@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { analytics } from "./AnalyticsTracker";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FeedbackData {
   type: 'bug' | 'feature' | 'improvement' | 'general';
@@ -87,14 +88,22 @@ const UserFeedbackSystem = () => {
     } as FeedbackData;
 
     try {
-      // Store feedback locally and log for debugging
+      // Store feedback locally for backup
       const existingFeedback = localStorage.getItem('user_feedback') || '[]';
       const feedbackList = JSON.parse(existingFeedback);
       feedbackList.push(feedback);
       localStorage.setItem('user_feedback', JSON.stringify(feedbackList));
       
-      // Log feedback for immediate visibility
-      console.log('💬 User Feedback Submitted:', feedback);
+      // Send feedback via Supabase Edge Function
+      const { data, error } = await supabase.functions.invoke('send-feedback', {
+        body: feedback
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      console.log('💬 Feedback sent successfully:', data);
 
       // Track feedback submission in analytics
       analytics.track('feedback_submitted', {
@@ -106,8 +115,10 @@ const UserFeedbackSystem = () => {
 
       setSubmitted(true);
       toast({
-        title: "Thank you for your feedback!",
-        description: "Your input helps us improve the networking calculator for professionals like you.",
+        title: "Feedback Sent Successfully!",
+        description: feedback.email 
+          ? "Your feedback has been sent and you'll receive a confirmation email shortly."
+          : "Your feedback has been sent to our team. Thank you for helping us improve!",
       });
 
       // Reset form after delay
@@ -124,10 +135,11 @@ const UserFeedbackSystem = () => {
         });
       }, 3000);
 
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Feedback submission error:', error);
       toast({
-        title: "Submission Error",
-        description: "Failed to submit feedback. Please try again.",
+        title: "Email Sending Failed",
+        description: "Could not send email, but feedback was saved locally. Please try again or contact support.",
         variant: "destructive",
       });
     }
