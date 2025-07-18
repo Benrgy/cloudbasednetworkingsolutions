@@ -34,51 +34,82 @@ const AffiliateCallToAction: React.FC<AffiliateCallToActionProps> = ({
 
   const partners = [
     {
-      name: "CloudScale Networks",
-      speciality: "Multi-Cloud Architecture",
+      name: "Amazon Web Services",
+      speciality: "Enterprise Cloud Infrastructure",
       rating: 4.9,
-      projects: "500+",
-      description: "Expert in AWS, Azure, and GCP network design and optimization",
-      ctaText: "Get Quote",
-      url: "#cloudscale-partner",
-      badge: "Recommended"
+      projects: "1M+",
+      description: "Best for complex subnetting and enterprise-scale networking with advanced VPC features",
+      ctaText: "Start Free Tier",
+      url: "https://aws.amazon.com/free/?trk=affiliate",
+      badge: "Best for Enterprise",
+      strengths: "Global reach, advanced networking, enterprise features"
     },
     {
-      name: "SecureNet Consulting",
-      speciality: "Network Security",
+      name: "Google Cloud Platform",
+      speciality: "AI & Analytics",
       rating: 4.8,
-      projects: "300+",
-      description: "Specialized in Zero Trust network architecture and compliance",
-      ctaText: "Consult Now",
-      url: "#securenet-partner",
-      badge: "Security Expert"
+      projects: "500K+",
+      description: "Perfect for IP allocation and data-driven workloads with cutting-edge networking",
+      ctaText: "Try $300 Credit",
+      url: "https://cloud.google.com/free?utm_source=affiliate",
+      badge: "Best for Innovation",
+      strengths: "AI/ML capabilities, open-source friendly, container networking"
     },
     {
-      name: "AutoNet Solutions",
-      speciality: "Network Automation",
+      name: "Microsoft Azure",
+      speciality: "Hybrid Cloud Solutions",
       rating: 4.7,
-      projects: "250+",
-      description: "Infrastructure as Code and automated network provisioning",
-      ctaText: "Learn More",
-      url: "#autonet-partner",
-      badge: "Automation Specialist"
+      projects: "800K+",
+      description: "Ideal for cost optimization and hybrid environments with deep Microsoft integration",
+      ctaText: "Get $200 Credit",
+      url: "https://azure.microsoft.com/free/?ref=affiliate",
+      badge: "Best for Hybrid",
+      strengths: "Microsoft integration, hybrid cloud, enterprise compliance"
     }
   ];
 
   const getContextualMessage = () => {
-    if (!results) {
-      return "Ready to implement your cloud networking solution?";
+    if (!results && !calculationType) {
+      return "Ready to implement your network design? Choose the best cloud platform for your specific needs.";
     }
 
     switch (calculationType) {
       case 'subnet':
-        return `Perfect! Your network needs ${results.usableHosts} hosts. Need help implementing this architecture?`;
-      case 'cost':
-        return `Based on your $${results.estimatedCost}/month estimate, let's optimize your setup.`;
+        return results 
+          ? `Perfect! Your ${results.networkAddress || 'network'} configuration is ready. Based on your requirements, here's the best cloud platform match:`
+          : "Subnet planning complete? Based on your network size and complexity, here are our recommendations:";
+      
       case 'allocation':
-        return "Got your IP allocation planned? Let's make it happen efficiently.";
+        return "IP allocation optimized! For your specific IP management needs, these platforms offer the best features:";
+      
+      case 'cost':
+        return results 
+          ? "Based on your cost analysis, here are cloud platforms that offer the best value for your specific requirements:"
+          : "Cost estimates ready? Get the most value with these cloud providers:";
+      
       default:
-        return "Ready to turn your calculations into reality?";
+        return "Transform your network calculations into reality with our recommended cloud partners.";
+    }
+  };
+
+  const getRecommendedProvider = () => {
+    if (!results && !calculationType) return partners[0]; // Default to AWS
+
+    switch (calculationType) {
+      case 'subnet':
+        // For complex subnetting, recommend AWS for its advanced VPC features
+        return partners.find(p => p.name === 'Amazon Web Services') || partners[0];
+      
+      case 'allocation':
+        // For IP allocation, recommend Google Cloud for its networking features
+        return partners.find(p => p.name === 'Google Cloud Platform') || partners[1];
+      
+      case 'cost':
+        // For cost optimization, recommend based on results or default to Azure
+        return partners.find(p => p.name === 'Microsoft Azure') || partners[2];
+      
+      default:
+        return partners[0];
     }
   };
 
@@ -86,10 +117,12 @@ const AffiliateCallToAction: React.FC<AffiliateCallToActionProps> = ({
     // Track affiliate click
     console.log(`Affiliate click: ${partner.name}`);
     
-    // In a real implementation, this would redirect to the affiliate URL
+    // Open affiliate link in new tab
+    window.open(partner.url, '_blank', 'noopener,noreferrer');
+    
     toast({
-      title: "Connecting you with our partner",
-      description: `Redirecting to ${partner.name} for professional consultation`,
+      title: `Opening ${partner.name}`,
+      description: `Get started with ${partner.ctaText.toLowerCase()} and implement your network design!`,
     });
   };
 

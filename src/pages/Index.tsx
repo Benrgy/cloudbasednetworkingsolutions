@@ -8,8 +8,6 @@ import Navigation from "@/components/Navigation";
 import { ProfessionalTooltip } from "@/components/ProfessionalTooltips";
 import { useAnalytics } from "@/components/AnalyticsTracker";
 import UserFeedbackSystem from "@/components/UserFeedbackSystem";
-import OnboardingWalkthrough from "@/components/OnboardingWalkthrough";
-import NewsletterSignup from "@/components/NewsletterSignup";
 const Index = () => {
   const {
     trackUserEngagement
@@ -309,9 +307,6 @@ const Index = () => {
 
       {/* User Feedback System */}
       <UserFeedbackSystem />
-      
-      {/* Onboarding Walkthrough */}
-      <OnboardingWalkthrough />
     </div>;
 };
 export default Index;

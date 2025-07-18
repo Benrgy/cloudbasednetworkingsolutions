@@ -87,11 +87,14 @@ const UserFeedbackSystem = () => {
     } as FeedbackData;
 
     try {
-      // Store feedback locally (in production, send to backend)
+      // Store feedback locally and log for debugging
       const existingFeedback = localStorage.getItem('user_feedback') || '[]';
       const feedbackList = JSON.parse(existingFeedback);
       feedbackList.push(feedback);
       localStorage.setItem('user_feedback', JSON.stringify(feedbackList));
+      
+      // Log feedback for immediate visibility
+      console.log('💬 User Feedback Submitted:', feedback);
 
       // Track feedback submission in analytics
       analytics.track('feedback_submitted', {
