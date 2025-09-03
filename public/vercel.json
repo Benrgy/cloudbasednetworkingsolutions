@@ -1,0 +1,55 @@
+{
+  "rewrites": [
+    {
+      "source": "/calculator",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/how-to-use", 
+      "destination": "/index.html"
+    },
+    {
+      "source": "/benefits",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/subnet-calculator",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ip-calculator",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/network-calculator",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options", 
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}

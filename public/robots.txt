@@ -12,3 +12,24 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Important pages for crawling
+Allow: /calculator
+Allow: /how-to-use
+Allow: /benefits
+Allow: /faq
+Allow: /subnet-calculator
+Allow: /ip-calculator
+Allow: /network-calculator
+
+# Block admin and development files
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /api/
+Disallow: *.json$
+
+# Sitemap location
+Sitemap: https://cloudbasednetworkingsolutions.com/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1

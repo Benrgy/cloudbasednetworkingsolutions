@@ -1,0 +1,13 @@
+# SPA fallback for Netlify
+/*    /index.html   200
+
+# Specific routes with proper status codes
+/calculator /index.html 200
+/how-to-use /index.html 200  
+/benefits /index.html 200
+/faq /index.html 200
+
+# Handle common networking tool searches
+/subnet-calculator /index.html 200
+/ip-calculator /index.html 200
+/network-calculator /index.html 200

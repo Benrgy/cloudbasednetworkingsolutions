@@ -1,0 +1,39 @@
+Options -MultiViews
+RewriteEngine On
+
+# Handle specific networking calculator routes
+RewriteRule ^calculator/?$ /index.html [L]
+RewriteRule ^how-to-use/?$ /index.html [L]
+RewriteRule ^benefits/?$ /index.html [L]  
+RewriteRule ^faq/?$ /index.html [L]
+
+# Handle common search variations
+RewriteRule ^subnet-calculator/?$ /index.html [L]
+RewriteRule ^ip-calculator/?$ /index.html [L]
+RewriteRule ^network-calculator/?$ /index.html [L]
+
+# Fallback for all other routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# MIME types for better performance
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+    AddType image/webp .webp
+    AddType font/woff2 .woff2
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
