@@ -1,12 +1,19 @@
 # Netlify Configuration
 
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
 [[edge_functions]]
   function = "seo"
   path = "/*"
 
-[build]
-  command = "npm run build"
-  publish = "dist"
+[[edge_functions]]
+  function = "blog-seo"
+  path = "/blog/*"
 
 [[redirects]]
   from = "/*"
