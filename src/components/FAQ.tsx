@@ -2,14 +2,12 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HelpCircle, Network, Cloud, DollarSign, Shield, Zap } from "lucide-react";
-
 const FAQ = () => {
-  const faqData = [
-    {
-      id: "subnetting-basics",
-      icon: <Network className="h-5 w-5" />,
-      question: "What is subnetting and why is it important for cloud based networking?",
-      answer: `Subnetting is a fundamental network segmentation technique that divides a larger network into smaller, more manageable subnetworks (subnets). In cloud environments, proper subnetting is crucial for several reasons that directly impact performance, security, and cost optimization.
+  const faqData = [{
+    id: "subnetting-basics",
+    icon: <Network className="h-5 w-5" />,
+    question: "What is subnetting and why is it important for cloud based networking?",
+    answer: `Subnetting is a fundamental network segmentation technique that divides a larger network into smaller, more manageable subnetworks (subnets). In cloud environments, proper subnetting is crucial for several reasons that directly impact performance, security, and cost optimization.
 
       **Understanding Subnetting Fundamentals**
       
@@ -38,12 +36,11 @@ const FAQ = () => {
       **Best Practices for Cloud Subnetting**
       
       When implementing subnetting in cloud environments, consider factors such as availability zone distribution, traffic patterns, security requirements, and integration with hybrid cloud architectures. Plan for adequate IP address space while avoiding waste, and implement consistent naming conventions for easier management.`
-    },
-    {
-      id: "ip-allocation",
-      icon: <Zap className="h-5 w-5" />,
-      question: "How do I optimize IP allocation for multi-cloud environments?",
-      answer: `IP allocation optimization in multi-cloud environments requires careful planning, strategic address space management, and deep understanding of each cloud provider's networking models. Effective IP allocation strategies ensure scalability, prevent conflicts, and enable seamless connectivity across different cloud platforms.
+  }, {
+    id: "ip-allocation",
+    icon: <Zap className="h-5 w-5" />,
+    question: "How do I optimize IP allocation for multi-cloud environments?",
+    answer: `IP allocation optimization in multi-cloud environments requires careful planning, strategic address space management, and deep understanding of each cloud provider's networking models. Effective IP allocation strategies ensure scalability, prevent conflicts, and enable seamless connectivity across different cloud platforms.
 
       **Multi-Cloud IP Address Space Planning**
       
@@ -76,12 +73,11 @@ const FAQ = () => {
       **Cost Optimization Through Strategic Allocation**
       
       Optimize costs by understanding each provider's pricing model for networking resources. Some providers charge for unused elastic IP addresses, while others have different rates for data transfer between regions or availability zones. Align your IP allocation strategy with these cost structures to minimize unnecessary expenses while maintaining required functionality.`
-    },
-    {
-      id: "cloud-costs",
-      icon: <DollarSign className="h-5 w-5" />,
-      question: "What factors influence cloud based networking costs and how can I optimize them?",
-      answer: `Cloud based networking costs are influenced by multiple interconnected factors that vary significantly across providers and usage patterns. Understanding these cost drivers and implementing optimization strategies can result in substantial savings while maintaining or improving network performance and reliability.
+  }, {
+    id: "cloud-costs",
+    icon: <DollarSign className="h-5 w-5" />,
+    question: "What factors influence cloud based networking costs and how can I optimize them?",
+    answer: `Cloud based networking costs are influenced by multiple interconnected factors that vary significantly across providers and usage patterns. Understanding these cost drivers and implementing optimization strategies can result in substantial savings while maintaining or improving network performance and reliability.
 
       **Primary Cost Drivers in Cloud Based Networking**
       
@@ -118,12 +114,11 @@ const FAQ = () => {
       **Automation and Cost Monitoring**
       
       Implement automated cost monitoring and alerting systems that provide real-time visibility into networking expenses. Use cloud provider cost management tools, third-party solutions, or custom dashboards to track spending trends and identify cost anomalies quickly. Set up automated responses for cost threshold breaches to prevent unexpected charges.`
-    },
-    {
-      id: "security-best-practices",
-      icon: <Shield className="h-5 w-5" />,
-      question: "What are the essential security best practices for cloud network design?",
-      answer: `Cloud network security requires a comprehensive, multi-layered approach that addresses threats at every level of the network stack. Modern cloud environments face sophisticated attacks that exploit vulnerabilities in network design, configuration, and management. Implementing robust security practices is essential for protecting data, maintaining compliance, and ensuring business continuity.
+  }, {
+    id: "security-best-practices",
+    icon: <Shield className="h-5 w-5" />,
+    question: "What are the essential security best practices for cloud network design?",
+    answer: `Cloud network security requires a comprehensive, multi-layered approach that addresses threats at every level of the network stack. Modern cloud environments face sophisticated attacks that exploit vulnerabilities in network design, configuration, and management. Implementing robust security practices is essential for protecting data, maintaining compliance, and ensuring business continuity.
 
       **Zero Trust Network Architecture**
       
@@ -160,12 +155,11 @@ const FAQ = () => {
       **Security Automation and Orchestration**
       
       Implement Security Orchestration, Automation, and Response (SOAR) platforms that can automatically respond to network security threats. Use Infrastructure as Code principles to ensure consistent security configurations across environments. Implement automated compliance checking and remediation to maintain security posture as networks evolve and scale.`
-    },
-    {
-      id: "enterprise-automation",
-      icon: <Zap className="h-5 w-5" />,
-      question: "How can I automate network provisioning and management across cloud environments?",
-      answer: `Network automation in cloud environments enables consistent, repeatable, and error-free infrastructure deployment while reducing operational overhead and improving security posture. Modern cloud networking automation leverages Infrastructure as Code (IaC), software-defined networking (SDN), and cloud-native orchestration platforms to achieve enterprise-scale network management.
+  }, {
+    id: "enterprise-automation",
+    icon: <Zap className="h-5 w-5" />,
+    question: "How can I automate network provisioning and management across cloud environments?",
+    answer: `Network automation in cloud environments enables consistent, repeatable, and error-free infrastructure deployment while reducing operational overhead and improving security posture. Modern cloud networking automation leverages Infrastructure as Code (IaC), software-defined networking (SDN), and cloud-native orchestration platforms to achieve enterprise-scale network management.
 
       **Infrastructure as Code for Network Automation**
       
@@ -198,12 +192,11 @@ const FAQ = () => {
       **Cost Optimization Automation**
       
       Deploy automated cost optimization tools that monitor network usage patterns and automatically implement cost-saving measures. Use cloud provider cost management APIs to automatically resize network resources, implement scheduling for non-production environments, and optimize data transfer patterns to minimize networking costs while maintaining performance requirements.`
-    },
-    {
-      id: "compliance-security",
-      icon: <Shield className="h-5 w-5" />,
-      question: "What compliance frameworks should I consider for enterprise cloud networking?",
-      answer: `Enterprise cloud networking must align with multiple compliance frameworks to meet regulatory requirements, industry standards, and organizational security policies. Understanding and implementing appropriate compliance controls is essential for organizations handling sensitive data, operating in regulated industries, or serving government clients.
+  }, {
+    id: "compliance-security",
+    icon: <Shield className="h-5 w-5" />,
+    question: "What compliance frameworks should I consider for enterprise cloud networking?",
+    answer: `Enterprise cloud networking must align with multiple compliance frameworks to meet regulatory requirements, industry standards, and organizational security policies. Understanding and implementing appropriate compliance controls is essential for organizations handling sensitive data, operating in regulated industries, or serving government clients.
 
       **Major Compliance Frameworks for Cloud Networking**
       
@@ -236,12 +229,11 @@ const FAQ = () => {
       **Continuous Compliance Monitoring**
       
       Deploy automated compliance monitoring tools that continuously assess network configurations against compliance requirements. Implement configuration drift detection, automated remediation for non-compliant configurations, and real-time alerting for compliance violations. Use policy-as-code frameworks to codify compliance requirements and automatically enforce them across cloud environments.`
-    },
-    {
-      id: "multi-cloud-networking",
-      icon: <Cloud className="h-5 w-5" />,
-      question: "How do I design effective multi-cloud based networking strategies?",
-      answer: `Multi-cloud based networking strategies require careful architectural planning, deep understanding of provider-specific services, and robust management frameworks to ensure seamless connectivity, optimal performance, and cost efficiency across diverse cloud environments. Organizations adopt multi-cloud approaches for various reasons including risk mitigation, vendor negotiation leverage, and leveraging best-of-breed services from different providers.
+  }, {
+    id: "multi-cloud-networking",
+    icon: <Cloud className="h-5 w-5" />,
+    question: "How do I design effective multi-cloud based networking strategies?",
+    answer: `Multi-cloud based networking strategies require careful architectural planning, deep understanding of provider-specific services, and robust management frameworks to ensure seamless connectivity, optimal performance, and cost efficiency across diverse cloud environments. Organizations adopt multi-cloud approaches for various reasons including risk mitigation, vendor negotiation leverage, and leveraging best-of-breed services from different providers.
 
       **Strategic Multi-Cloud Architecture Planning**
       
@@ -278,12 +270,11 @@ const FAQ = () => {
       **Integration and Interoperability Considerations**
       
       Design integration strategies that enable seamless communication and data exchange between services deployed across different cloud providers. Use API gateways and service mesh technologies to abstract provider-specific networking details and provide consistent interfaces for application development. Implement data format standardization and protocol translation capabilities to ensure interoperability across diverse cloud services and platforms.`
-    },
-    {
-      id: "troubleshooting-network-issues",
-      icon: <HelpCircle className="h-5 w-5" />,
-      question: "What are common cloud based networking issues and how do I troubleshoot them?",
-      answer: `Cloud based networking troubleshooting requires systematic approaches, comprehensive monitoring tools, and deep understanding of cloud provider networking models. Network issues in cloud environments can manifest in various ways including connectivity failures, performance degradation, security breaches, and cost anomalies. Effective troubleshooting methodologies enable rapid issue identification and resolution while minimizing business impact.
+  }, {
+    id: "troubleshooting-network-issues",
+    icon: <HelpCircle className="h-5 w-5" />,
+    question: "What are common cloud based networking issues and how do I troubleshoot them?",
+    answer: `Cloud based networking troubleshooting requires systematic approaches, comprehensive monitoring tools, and deep understanding of cloud provider networking models. Network issues in cloud environments can manifest in various ways including connectivity failures, performance degradation, security breaches, and cost anomalies. Effective troubleshooting methodologies enable rapid issue identification and resolution while minimizing business impact.
 
       **Systematic Troubleshooting Methodology**
       
@@ -320,18 +311,15 @@ const FAQ = () => {
       **Documentation and Knowledge Management**
       
       Maintain comprehensive documentation of network configurations, troubleshooting procedures, and known issues. Create network diagrams that accurately reflect current topology and are updated as configurations change. Develop troubleshooting guides specific to your environment that include common issues, resolution steps, and escalation procedures. Implement knowledge management systems that capture lessons learned from previous incidents and make this information easily accessible to operations teams.`
-    }
-  ];
-
-  return (
-    <section className="w-full max-w-6xl mx-auto space-y-8">
+  }];
+  return <section className="w-full max-w-6xl mx-auto space-y-8">
       <Card className="bg-gradient-secondary border-0 shadow-medium">
         <CardHeader className="text-center">
-          <CardTitle className="flex items-center justify-center gap-2 text-3xl">
+          <CardTitle className="flex items-center justify-center gap-2 text-3xl text-gray-950">
             <HelpCircle className="h-8 w-8 text-primary" />
             Frequently Asked Questions
           </CardTitle>
-          <CardDescription className="text-lg max-w-3xl mx-auto">
+          <CardDescription className="text-lg max-w-3xl mx-auto text-slate-950">
             Comprehensive answers to common cloud based networking questions, optimized for technical accuracy and practical implementation guidance
           </CardDescription>
         </CardHeader>
@@ -340,8 +328,7 @@ const FAQ = () => {
       <Card className="shadow-medium">
         <CardContent className="p-6">
           <Accordion type="single" collapsible className="space-y-4">
-            {faqData.map((faq) => (
-              <AccordionItem key={faq.id} value={faq.id} className="border rounded-lg px-4 hover:shadow-soft transition-smooth">
+            {faqData.map(faq => <AccordionItem key={faq.id} value={faq.id} className="border rounded-lg px-4 hover:shadow-soft transition-smooth">
                 <AccordionTrigger className="text-left hover:no-underline py-4">
                   <div className="flex items-center gap-3">
                     <div className="text-primary">{faq.icon}</div>
@@ -351,33 +338,26 @@ const FAQ = () => {
                 <AccordionContent className="pb-4 pt-2">
                   <div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed">
                     {faq.answer.split('\n\n').map((paragraph, index) => {
-                      if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**')) {
-                        return (
-                          <h4 key={index} className="font-semibold text-foreground mt-6 mb-3 text-base">
+                  if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**')) {
+                    return <h4 key={index} className="font-semibold text-foreground mt-6 mb-3 text-base">
                             {paragraph.replace(/\*\*/g, '')}
-                          </h4>
-                        );
-                      }
-                      return (
-                        <p key={index} className="mb-4">
+                          </h4>;
+                  }
+                  return <p key={index} className="mb-4">
                           {paragraph.split('**').map((part, partIndex) => {
-                            if (partIndex % 2 === 1) {
-                              return <strong key={partIndex} className="font-semibold text-foreground">{part}</strong>;
-                            }
-                            return part;
-                          })}
-                        </p>
-                      );
+                      if (partIndex % 2 === 1) {
+                        return <strong key={partIndex} className="font-semibold text-foreground">{part}</strong>;
+                      }
+                      return part;
                     })}
+                        </p>;
+                })}
                   </div>
                 </AccordionContent>
-              </AccordionItem>
-            ))}
+              </AccordionItem>)}
           </Accordion>
         </CardContent>
       </Card>
-    </section>
-  );
+    </section>;
 };
-
 export default FAQ;
