@@ -1,14 +1,17 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Cloud, Calculator, Network, Zap, ArrowRight, CheckCircle, TrendingUp, Shield } from "lucide-react";
-import AdvancedNetworkCalculator from "@/components/AdvancedNetworkCalculator";
-import FAQ from "@/components/FAQ";
 import Navigation from "@/components/Navigation";
 import { ProfessionalTooltip } from "@/components/ProfessionalTooltips";
 import { useAnalytics } from "@/components/AnalyticsTracker";
-import UserFeedbackSystem from "@/components/UserFeedbackSystem";
+
+// Lazy load heavy components for better performance
+const AdvancedNetworkCalculator = lazy(() => import("@/components/AdvancedNetworkCalculator"));
+const FAQ = lazy(() => import("@/components/FAQ"));
+const UserFeedbackSystem = lazy(() => import("@/components/UserFeedbackSystem"));
 
 const Index = () => {
   const { trackUserEngagement } = useAnalytics();
@@ -77,6 +80,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Skip to main content link for accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
+      >
+        Skip to main content
+      </a>
       <Navigation />
       
       {/* Hero Section */}
@@ -175,17 +185,21 @@ const Index = () => {
       </section>
 
       {/* Calculator Section */}
-      <section id="calculator" className="py-20" role="region" aria-labelledby="calculator-heading">
-        <div className="container mx-auto px-4">
-          <div className="text-center space-y-4 mb-16">
-            <h2 id="calculator-heading" className="text-3xl md:text-4xl font-bold">Network Calculator Tools</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Professional tools for subnet calculation, IP allocation, and cost estimation
-            </p>
+      <main id="main-content">
+        <section id="calculator" className="py-20" role="region" aria-labelledby="calculator-heading">
+          <div className="container mx-auto px-4">
+            <div className="text-center space-y-4 mb-16">
+              <h2 id="calculator-heading" className="text-3xl md:text-4xl font-bold">Network Calculator Tools</h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Professional tools for subnet calculation, IP allocation, and cost estimation
+              </p>
+            </div>
+            <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+              <AdvancedNetworkCalculator />
+            </Suspense>
           </div>
-          <AdvancedNetworkCalculator />
-        </div>
-      </section>
+        </section>
+      </main>
 
       {/* Benefits Section */}
       <section id="benefits" className="py-20 bg-muted/30" role="region" aria-labelledby="benefits-heading">
@@ -252,7 +266,9 @@ const Index = () => {
               Comprehensive guides and answers to common cloud based networking questions
             </p>
           </div>
-          <FAQ />
+          <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+            <FAQ />
+          </Suspense>
         </div>
       </section>
 
@@ -347,7 +363,9 @@ const Index = () => {
         </div>
       </footer>
 
-      <UserFeedbackSystem />
+      <Suspense fallback={null}>
+        <UserFeedbackSystem />
+      </Suspense>
     </div>
   );
 };

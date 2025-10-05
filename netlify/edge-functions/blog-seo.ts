@@ -3,6 +3,7 @@ import { Context } from "https://edge.netlify.com/";
 interface BlogPost {
   title: string;
   excerpt: string;
+  content?: string;
   meta_title?: string;
   meta_description?: string;
   featured_image?: string;
@@ -53,8 +54,13 @@ function generateSEOTags(post: BlogPost): string {
   const description = post.meta_description || post.excerpt || `Read "${post.title}" on Your Site Name - expert insights and professional advice.`;
   const canonicalUrl = `https://yoursite.netlify.app/blog/${post.slug}`;
   
-  const hasFAQ = post.content && post.content.includes('## Frequently Asked Questions');
-  const faqSchema = hasFAQ ? generateFAQSchema(post.content) : '';
+  // Safe FAQ schema generation with fallback
+  const hasFAQ = post.content && (
+    post.content.includes('## Frequently Asked Questions') || 
+    post.content.includes('### 1.') ||
+    post.content.includes('**Q:')
+  );
+  const faqSchema = (hasFAQ && post.content) ? generateFAQSchema(post.content) : '';
   
   return `
     <title>${escapeHtml(title)}</title>

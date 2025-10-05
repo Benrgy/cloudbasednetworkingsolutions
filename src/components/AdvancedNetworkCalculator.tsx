@@ -11,6 +11,9 @@ import { Progress } from "@/components/ui/progress";
 import { Calculator, Network, DollarSign, Zap, Globe, Shield, TrendingUp, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ProfessionalTooltip, SubnettingTooltip, CloudCostTooltip, PerformanceTooltip, SecurityTooltip } from "./ProfessionalTooltips";
+import { useSubnetCalculation } from "./calculator/hooks/useSubnetCalculation";
+import SubnetCalculatorTab from "./calculator/SubnetCalculatorTab";
+import { validatePositiveNumber, logError } from "@/utils/validationUtils";
 interface SubnetResult {
   networkAddress: string;
   broadcastAddress: string;
@@ -48,9 +51,15 @@ interface AdvancedScenario {
   estimatedSavings: number;
 }
 const AdvancedNetworkCalculator = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  
+  // Use custom hook for subnet calculations
+  const { 
+    results, 
+    loading: subnetLoading, 
+    validationErrors, 
+    calculateAdvancedSubnet 
+  } = useSubnetCalculation();
 
   // Enhanced state management
   const [ipAddress, setIpAddress] = useState('10.0.0.0');
@@ -63,7 +72,6 @@ const AdvancedNetworkCalculator = () => {
   const [availabilityZones, setAvailabilityZones] = useState('3');
   const [redundancyLevel, setRedundancyLevel] = useState('high');
   const [complianceLevel, setComplianceLevel] = useState('standard');
-  const [results, setResults] = useState<SubnetResult | null>(null);
   const [costEstimate, setCostEstimate] = useState<RealTimeCostEstimate | null>(null);
   const [loading, setLoading] = useState(false);
   const [scenarios, setScenarios] = useState<AdvancedScenario[]>([]);
@@ -111,79 +119,21 @@ const AdvancedNetworkCalculator = () => {
       natGateway: rates.nat * multiplier
     };
   };
-  const calculateAdvancedSubnet = async () => {
-    setLoading(true);
-    try {
-      const ip = ipAddress.split('.').map(num => parseInt(num));
-      const mask = parseInt(subnetMask);
-      const hostsRequired = parseInt(hostsNeeded);
-
-      // Advanced subnet calculations
-      const networkBits = 32 - mask;
-      const totalHosts = Math.pow(2, networkBits);
-      const usableHosts = totalHosts - 2;
-
-      // VLSM recommendations
-      const getOptimalCIDR = (hosts: number) => {
-        const bitsNeeded = Math.ceil(Math.log2(hosts + 2));
-        return 32 - bitsNeeded;
-      };
-      const optimalCIDR = getOptimalCIDR(hostsRequired);
-      const vlsmRecommendation = optimalCIDR !== mask ? `Consider using /${optimalCIDR} for optimal IP utilization (${Math.pow(2, 32 - optimalCIDR) - 2} hosts)` : 'Current CIDR is optimal for requirements';
-
-      // Security scoring based on subnet size and segmentation
-      const securityScore = calculateSecurityScore(mask, parseInt(availabilityZones), complianceLevel);
-
-      // Network address calculation (simplified)
-      const networkAddress = ip.slice(0, 3).join('.') + '.0';
-      const broadcastOctet = Math.min(255, ip[3] + Math.pow(2, Math.min(networkBits, 8)) - 1);
-      const broadcastAddress = ip.slice(0, 3).join('.') + '.' + broadcastOctet;
-      const subnetMaskAddr = calculateSubnetMask(mask);
-      const result: SubnetResult = {
-        networkAddress,
-        broadcastAddress,
-        usableHosts,
-        subnetMask: subnetMaskAddr,
-        cidr: `/${mask}`,
-        totalIPs: totalHosts,
-        vlsmRecommendation,
-        securityScore
-      };
-      setResults(result);
-
-      // Generate advanced scenarios
-      generateAdvancedScenarios();
-      toast({
-        title: "Advanced subnet calculation completed!",
-        description: `Optimized for ${usableHosts} hosts with ${securityScore}% security score`
-      });
-    } catch (error) {
-      toast({
-        title: "Calculation Error",
-        description: "Please verify input parameters and try again.",
-        variant: "destructive"
-      });
-    }
-    setLoading(false);
-  };
-  const calculateSecurityScore = (mask: number, azCount: number, compliance: string) => {
-    let score = 50;
-
-    // Subnet size scoring (smaller subnets = higher security)
-    if (mask >= 28) score += 25;else if (mask >= 26) score += 15;else if (mask >= 24) score += 10;
-
-    // Multi-AZ scoring
-    if (azCount >= 3) score += 15;else if (azCount >= 2) score += 10;
-
-    // Compliance scoring
-    if (compliance === 'strict') score += 10;else if (compliance === 'enhanced') score += 5;
-    return Math.min(100, score);
-  };
-  const calculateSubnetMask = (cidr: number): string => {
-    const mask = 0xffffffff << 32 - cidr >>> 0;
-    return [mask >>> 24 & 0xff, mask >>> 16 & 0xff, mask >>> 8 & 0xff, mask & 0xff].join('.');
-  };
+  
   const estimateRealTimeCosts = async () => {
+    // Validate inputs
+    const dataValidation = validatePositiveNumber(dataTransfer, "Data transfer", { min: 0, max: 1000000 });
+    const instancesValidation = validatePositiveNumber(instances, "Instances", { min: 1, max: 1000 });
+    
+    if (!dataValidation.valid || !instancesValidation.valid) {
+      toast({
+        title: "Validation Error",
+        description: dataValidation.error || instancesValidation.error,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       const rates = await getRealTimePricing(cloudProvider, region);
@@ -220,13 +170,14 @@ const AdvancedNetworkCalculator = () => {
       setCostEstimate(estimate);
       toast({
         title: "Real-time cost analysis completed!",
-        description: `Monthly estimate: $${totalCost.toFixed(2)} with $${savingsOpportunities.toFixed(2)} potential savings`
+        description: `Monthly estimate: $${totalCost.toFixed(2)} with $${savingsOpportunities.toFixed(2)} potential savings`,
       });
     } catch (error) {
+      logError('CostEstimation', error);
       toast({
         title: "Cost Estimation Error",
         description: "Unable to retrieve real-time pricing. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     }
     setLoading(false);
@@ -386,158 +337,30 @@ const AdvancedNetworkCalculator = () => {
         </TabsList>
 
         <TabsContent value="advanced-subnetting" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Network className="h-5 w-5" />
-                Enterprise Subnet Calculator
-                <SecurityTooltip>
-                  <Badge variant="outline">Security Optimized</Badge>
-                </SecurityTooltip>
-              </CardTitle>
-              <CardDescription>
-                VLSM-optimized calculations with security scoring and compliance recommendations
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="space-y-2">
-                  <SubnettingTooltip>
-                    <Label htmlFor="ip-address">Network Address</Label>
-                  </SubnettingTooltip>
-                  <Input id="ip-address" value={ipAddress} onChange={e => setIpAddress(e.target.value)} placeholder="10.0.0.0" />
-                </div>
-                <div className="space-y-2">
-                  <SubnettingTooltip>
-                    <Label htmlFor="subnet-mask">CIDR Notation</Label>
-                  </SubnettingTooltip>
-                  <Select value={subnetMask} onValueChange={setSubnetMask}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select CIDR" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {[16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30].map(cidr => <SelectItem key={cidr} value={cidr.toString()}>
-                          /{cidr} ({Math.pow(2, 32 - cidr) - 2} hosts)
-                        </SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="hosts-needed">Required Hosts</Label>
-                  <Input id="hosts-needed" value={hostsNeeded} onChange={e => setHostsNeeded(e.target.value)} placeholder="254" type="number" />
-                </div>
-                <div className="space-y-2">
-                  <ProfessionalTooltip content="Number of availability zones for high availability and disaster recovery">
-                    <Label htmlFor="availability-zones">Availability Zones</Label>
-                  </ProfessionalTooltip>
-                  <Select value={availabilityZones} onValueChange={setAvailabilityZones}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">Single AZ</SelectItem>
-                      <SelectItem value="2">Multi AZ (2)</SelectItem>
-                      <SelectItem value="3">Multi AZ (3) - Recommended</SelectItem>
-                      <SelectItem value="4">Multi AZ (4+)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <ProfessionalTooltip content="Redundancy level affects cost and availability SLA">
-                    <Label htmlFor="redundancy">Redundancy Level</Label>
-                  </ProfessionalTooltip>
-                  <Select value={redundancyLevel} onValueChange={setRedundancyLevel}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="basic">Basic (99.9% SLA)</SelectItem>
-                      <SelectItem value="standard">Standard (99.95% SLA)</SelectItem>
-                      <SelectItem value="high">High (99.99% SLA)</SelectItem>
-                      <SelectItem value="maximum">Maximum (99.995% SLA)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <ProfessionalTooltip content="Compliance level determines security controls and audit requirements">
-                    <Label htmlFor="compliance">Compliance Level</Label>
-                  </ProfessionalTooltip>
-                  <Select value={complianceLevel} onValueChange={setComplianceLevel}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="standard">Standard</SelectItem>
-                      <SelectItem value="enhanced">Enhanced (PCI DSS)</SelectItem>
-                      <SelectItem value="strict">Strict (HIPAA/SOX)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              
-              <Button onClick={calculateAdvancedSubnet} disabled={loading} className="w-full" size="lg">
-                {loading ? "Calculating Advanced Subnet..." : "Calculate Professional Subnet"}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {results && <Card className="border-primary/20 shadow-medium">
-              <CardHeader>
-                <CardTitle className="text-primary flex items-center gap-2">
-                  <Shield className="h-5 w-5" />
-                  Professional Subnet Analysis
-                  <Badge variant={results.securityScore >= 80 ? "default" : "secondary"}>
-                    Security Score: {results.securityScore}%
-                  </Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="space-y-1">
-                    <Label className="text-sm font-medium text-muted-foreground">Network Address</Label>
-                    <div className="text-lg font-mono">{results.networkAddress}</div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-sm font-medium text-muted-foreground">Broadcast Address</Label>
-                    <div className="text-lg font-mono">{results.broadcastAddress}</div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-sm font-medium text-muted-foreground">Subnet Mask</Label>
-                    <div className="text-lg font-mono">{results.subnetMask}</div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-sm font-medium text-muted-foreground">CIDR Notation</Label>
-                    <div className="text-lg font-mono">{results.cidr}</div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-sm font-medium text-muted-foreground">Usable Hosts</Label>
-                    <Badge variant="secondary" className="text-lg px-3 py-1">
-                      {results.usableHosts.toLocaleString()}
-                    </Badge>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-sm font-medium text-muted-foreground">IP Utilization</Label>
-                    <div className="flex items-center gap-2">
-                      <Progress value={parseInt(hostsNeeded) / results.usableHosts * 100} className="flex-1" />
-                      <span className="text-sm">{(parseInt(hostsNeeded) / results.usableHosts * 100).toFixed(1)}%</span>
-                    </div>
-                  </div>
-                </div>
-                
-                {results.vlsmRecommendation && <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
-                    <div className="flex items-start gap-2">
-                      <Zap className="h-5 w-5 text-accent mt-0.5" />
-                      <div>
-                        <Label className="font-medium text-accent">VLSM Optimization</Label>
-                        <p className="text-sm text-muted-foreground mt-1">{results.vlsmRecommendation}</p>
-                      </div>
-                    </div>
-                  </div>}
-              </CardContent>
-            </Card>}
+          <SubnetCalculatorTab
+            ipAddress={ipAddress}
+            setIpAddress={setIpAddress}
+            subnetMask={subnetMask}
+            setSubnetMask={setSubnetMask}
+            hostsNeeded={hostsNeeded}
+            setHostsNeeded={setHostsNeeded}
+            availabilityZones={availabilityZones}
+            setAvailabilityZones={setAvailabilityZones}
+            redundancyLevel={redundancyLevel}
+            setRedundancyLevel={setRedundancyLevel}
+            complianceLevel={complianceLevel}
+            setComplianceLevel={setComplianceLevel}
+            results={results}
+            loading={subnetLoading}
+            onCalculate={() => calculateAdvancedSubnet(
+              ipAddress,
+              subnetMask,
+              hostsNeeded,
+              availabilityZones,
+              complianceLevel
+            )}
+            validationErrors={validationErrors}
+          />
         </TabsContent>
 
         <TabsContent value="realtime-costs" className="space-y-6">
@@ -559,10 +382,10 @@ const AdvancedNetworkCalculator = () => {
                 <div className="space-y-2">
                   <Label htmlFor="cloud-provider">Cloud Provider</Label>
                   <Select value={cloudProvider} onValueChange={setCloudProvider}>
-                    <SelectTrigger>
+                    <SelectTrigger id="cloud-provider" aria-label="Select cloud provider for cost estimation">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="z-50 bg-background">
                       <SelectItem value="aws">Amazon AWS</SelectItem>
                       <SelectItem value="azure">Microsoft Azure</SelectItem>
                       <SelectItem value="gcp">Google Cloud Platform</SelectItem>
@@ -574,10 +397,10 @@ const AdvancedNetworkCalculator = () => {
                     <Label htmlFor="region">Region</Label>
                   </PerformanceTooltip>
                   <Select value={region} onValueChange={setRegion}>
-                    <SelectTrigger>
+                    <SelectTrigger id="region" aria-label="Select cloud region for cost estimation">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="z-50 bg-background">
                       <SelectItem value="us-east-1">US East (N. Virginia)</SelectItem>
                       <SelectItem value="us-west-2">US West (Oregon)</SelectItem>
                       <SelectItem value="eu-west-1">Europe (Ireland)</SelectItem>
@@ -589,15 +412,37 @@ const AdvancedNetworkCalculator = () => {
                   <CloudCostTooltip>
                     <Label htmlFor="data-transfer">Data Transfer (GB/month)</Label>
                   </CloudCostTooltip>
-                  <Input id="data-transfer" value={dataTransfer} onChange={e => setDataTransfer(e.target.value)} placeholder="1000" type="number" />
+                  <Input 
+                    id="data-transfer" 
+                    value={dataTransfer} 
+                    onChange={e => setDataTransfer(e.target.value)} 
+                    placeholder="1000" 
+                    type="number"
+                    min="0"
+                    aria-label="Monthly data transfer in gigabytes"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="instances">Compute Instances</Label>
-                  <Input id="instances" value={instances} onChange={e => setInstances(e.target.value)} placeholder="5" type="number" />
+                  <Input 
+                    id="instances" 
+                    value={instances} 
+                    onChange={e => setInstances(e.target.value)} 
+                    placeholder="5" 
+                    type="number"
+                    min="1"
+                    aria-label="Number of compute instances"
+                  />
                 </div>
               </div>
               
-              <Button onClick={estimateRealTimeCosts} disabled={loading} className="w-full" size="lg">
+              <Button 
+                onClick={estimateRealTimeCosts} 
+                disabled={loading} 
+                className="w-full" 
+                size="lg"
+                aria-label="Calculate real-time cost estimation"
+              >
                 {loading ? "Fetching Real-Time Prices..." : "Get Real-Time Cost Analysis"}
               </Button>
             </CardContent>
