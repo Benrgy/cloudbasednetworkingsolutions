@@ -11,7 +11,6 @@ import { Progress } from "@/components/ui/progress";
 import { Calculator, Network, DollarSign, Zap, Globe, Shield, TrendingUp, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ProfessionalTooltip, SubnettingTooltip, CloudCostTooltip, PerformanceTooltip, SecurityTooltip } from "./ProfessionalTooltips";
-
 interface SubnetResult {
   networkAddress: string;
   broadcastAddress: string;
@@ -22,7 +21,6 @@ interface SubnetResult {
   vlsmRecommendation?: string;
   securityScore: number;
 }
-
 interface RealTimeCostEstimate {
   provider: string;
   region: string;
@@ -39,7 +37,6 @@ interface RealTimeCostEstimate {
   recommendations: string[];
   savingsOpportunities: number;
 }
-
 interface AdvancedScenario {
   name: string;
   description: string;
@@ -50,10 +47,11 @@ interface AdvancedScenario {
   }>;
   estimatedSavings: number;
 }
-
 const AdvancedNetworkCalculator = () => {
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
+
   // Enhanced state management
   const [ipAddress, setIpAddress] = useState('10.0.0.0');
   const [subnetMask, setSubnetMask] = useState('24');
@@ -65,7 +63,6 @@ const AdvancedNetworkCalculator = () => {
   const [availabilityZones, setAvailabilityZones] = useState('3');
   const [redundancyLevel, setRedundancyLevel] = useState('high');
   const [complianceLevel, setComplianceLevel] = useState('standard');
-  
   const [results, setResults] = useState<SubnetResult | null>(null);
   const [costEstimate, setCostEstimate] = useState<RealTimeCostEstimate | null>(null);
   const [loading, setLoading] = useState(false);
@@ -75,20 +72,37 @@ const AdvancedNetworkCalculator = () => {
   const getRealTimePricing = async (provider: string, region: string) => {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
     const baseRates = {
-      aws: { compute: 0.0464, networking: 0.09, storage: 0.10, lb: 0.0225, nat: 0.045 },
-      azure: { compute: 0.0496, networking: 0.087, storage: 0.0184, lb: 0.028, nat: 0.046 },
-      gcp: { compute: 0.0475, networking: 0.12, storage: 0.020, lb: 0.025, nat: 0.045 }
+      aws: {
+        compute: 0.0464,
+        networking: 0.09,
+        storage: 0.10,
+        lb: 0.0225,
+        nat: 0.045
+      },
+      azure: {
+        compute: 0.0496,
+        networking: 0.087,
+        storage: 0.0184,
+        lb: 0.028,
+        nat: 0.046
+      },
+      gcp: {
+        compute: 0.0475,
+        networking: 0.12,
+        storage: 0.020,
+        lb: 0.025,
+        nat: 0.045
+      }
     };
-    
     const regionMultipliers = {
-      'us-east-1': 1.0, 'us-west-2': 1.05, 'eu-west-1': 1.15, 'ap-southeast-1': 1.25
+      'us-east-1': 1.0,
+      'us-west-2': 1.05,
+      'eu-west-1': 1.15,
+      'ap-southeast-1': 1.25
     };
-    
     const rates = baseRates[provider as keyof typeof baseRates];
     const multiplier = regionMultipliers[region as keyof typeof regionMultipliers] || 1.0;
-    
     return {
       compute: rates.compute * multiplier,
       networking: rates.networking * multiplier,
@@ -97,39 +111,34 @@ const AdvancedNetworkCalculator = () => {
       natGateway: rates.nat * multiplier
     };
   };
-
   const calculateAdvancedSubnet = async () => {
     setLoading(true);
     try {
       const ip = ipAddress.split('.').map(num => parseInt(num));
       const mask = parseInt(subnetMask);
       const hostsRequired = parseInt(hostsNeeded);
-      
+
       // Advanced subnet calculations
       const networkBits = 32 - mask;
       const totalHosts = Math.pow(2, networkBits);
       const usableHosts = totalHosts - 2;
-      
+
       // VLSM recommendations
       const getOptimalCIDR = (hosts: number) => {
         const bitsNeeded = Math.ceil(Math.log2(hosts + 2));
         return 32 - bitsNeeded;
       };
-      
       const optimalCIDR = getOptimalCIDR(hostsRequired);
-      const vlsmRecommendation = optimalCIDR !== mask ? 
-        `Consider using /${optimalCIDR} for optimal IP utilization (${Math.pow(2, 32 - optimalCIDR) - 2} hosts)` : 
-        'Current CIDR is optimal for requirements';
-      
+      const vlsmRecommendation = optimalCIDR !== mask ? `Consider using /${optimalCIDR} for optimal IP utilization (${Math.pow(2, 32 - optimalCIDR) - 2} hosts)` : 'Current CIDR is optimal for requirements';
+
       // Security scoring based on subnet size and segmentation
       const securityScore = calculateSecurityScore(mask, parseInt(availabilityZones), complianceLevel);
-      
+
       // Network address calculation (simplified)
       const networkAddress = ip.slice(0, 3).join('.') + '.0';
       const broadcastOctet = Math.min(255, ip[3] + Math.pow(2, Math.min(networkBits, 8)) - 1);
       const broadcastAddress = ip.slice(0, 3).join('.') + '.' + broadcastOctet;
       const subnetMaskAddr = calculateSubnetMask(mask);
-      
       const result: SubnetResult = {
         networkAddress,
         broadcastAddress,
@@ -140,55 +149,40 @@ const AdvancedNetworkCalculator = () => {
         vlsmRecommendation,
         securityScore
       };
-      
       setResults(result);
-      
+
       // Generate advanced scenarios
       generateAdvancedScenarios();
-      
       toast({
         title: "Advanced subnet calculation completed!",
-        description: `Optimized for ${usableHosts} hosts with ${securityScore}% security score`,
+        description: `Optimized for ${usableHosts} hosts with ${securityScore}% security score`
       });
     } catch (error) {
       toast({
         title: "Calculation Error",
         description: "Please verify input parameters and try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
     setLoading(false);
   };
-
   const calculateSecurityScore = (mask: number, azCount: number, compliance: string) => {
     let score = 50;
-    
+
     // Subnet size scoring (smaller subnets = higher security)
-    if (mask >= 28) score += 25;
-    else if (mask >= 26) score += 15;
-    else if (mask >= 24) score += 10;
-    
+    if (mask >= 28) score += 25;else if (mask >= 26) score += 15;else if (mask >= 24) score += 10;
+
     // Multi-AZ scoring
-    if (azCount >= 3) score += 15;
-    else if (azCount >= 2) score += 10;
-    
+    if (azCount >= 3) score += 15;else if (azCount >= 2) score += 10;
+
     // Compliance scoring
-    if (compliance === 'strict') score += 10;
-    else if (compliance === 'enhanced') score += 5;
-    
+    if (compliance === 'strict') score += 10;else if (compliance === 'enhanced') score += 5;
     return Math.min(100, score);
   };
-
   const calculateSubnetMask = (cidr: number): string => {
-    const mask = (0xffffffff << (32 - cidr)) >>> 0;
-    return [
-      (mask >>> 24) & 0xff,
-      (mask >>> 16) & 0xff,
-      (mask >>> 8) & 0xff,
-      mask & 0xff
-    ].join('.');
+    const mask = 0xffffffff << 32 - cidr >>> 0;
+    return [mask >>> 24 & 0xff, mask >>> 16 & 0xff, mask >>> 8 & 0xff, mask & 0xff].join('.');
   };
-
   const estimateRealTimeCosts = async () => {
     setLoading(true);
     try {
@@ -196,20 +190,17 @@ const AdvancedNetworkCalculator = () => {
       const monthlyData = parseFloat(dataTransfer);
       const instanceCount = parseInt(instances);
       const azCount = parseInt(availabilityZones);
-      
       const monthlyHours = 24 * 30;
       const computeCost = rates.compute * instanceCount * monthlyHours;
       const networkingCost = rates.networking * monthlyData;
       const storageCost = rates.storage * instanceCount * 50; // 50GB per instance
       const loadBalancerCost = rates.loadBalancer * monthlyHours * azCount;
       const natGatewayCost = rates.natGateway * monthlyHours * azCount;
-      
       const totalCost = computeCost + networkingCost + storageCost + loadBalancerCost + natGatewayCost;
-      
+
       // Generate cost optimization recommendations
       const recommendations = generateCostRecommendations(rates, monthlyData, instanceCount);
       const savingsOpportunities = calculateSavingsOpportunities(totalCost, monthlyData);
-      
       const estimate: RealTimeCostEstimate = {
         provider: cloudProvider.toUpperCase(),
         region,
@@ -226,26 +217,22 @@ const AdvancedNetworkCalculator = () => {
         recommendations,
         savingsOpportunities
       };
-      
       setCostEstimate(estimate);
-      
       toast({
         title: "Real-time cost analysis completed!",
-        description: `Monthly estimate: $${totalCost.toFixed(2)} with $${savingsOpportunities.toFixed(2)} potential savings`,
+        description: `Monthly estimate: $${totalCost.toFixed(2)} with $${savingsOpportunities.toFixed(2)} potential savings`
       });
     } catch (error) {
       toast({
         title: "Cost Estimation Error",
         description: "Unable to retrieve real-time pricing. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
     setLoading(false);
   };
-
   const generateCostRecommendations = (rates: any, dataTransfer: number, instances: number) => {
     const recommendations = [];
-    
     if (dataTransfer > 10000) {
       recommendations.push("Consider implementing CloudFront/CDN for high data transfer volumes");
     }
@@ -255,78 +242,108 @@ const AdvancedNetworkCalculator = () => {
     if (rates.natGateway > 0.04) {
       recommendations.push("Consider NAT instance instead of NAT Gateway for cost optimization");
     }
-    
     return recommendations;
   };
-
   const calculateSavingsOpportunities = (totalCost: number, dataTransfer: number) => {
     let savings = 0;
-    
+
     // CDN savings estimation
     if (dataTransfer > 5000) {
       savings += totalCost * 0.15; // 15% savings potential
     }
-    
+
     // Reserved instance savings
     savings += totalCost * 0.3; // 30% potential RI savings
-    
+
     return savings;
   };
-
   const generateAdvancedScenarios = () => {
-    const scenarios: AdvancedScenario[] = [
-      {
-        name: "Multi-Tier Web Application",
-        description: "Optimized for web, app, and database tiers with security segmentation",
-        subnets: [
-          { cidr: "/26", purpose: "Web Tier (Public)", hosts: 62 },
-          { cidr: "/25", purpose: "Application Tier (Private)", hosts: 126 },
-          { cidr: "/27", purpose: "Database Tier (Private)", hosts: 30 }
-        ],
-        estimatedSavings: 1200
-      },
-      {
-        name: "Microservices Architecture",
-        description: "Container-optimized subnetting for Kubernetes/ECS workloads",
-        subnets: [
-          { cidr: "/24", purpose: "Container Nodes", hosts: 254 },
-          { cidr: "/26", purpose: "Load Balancers", hosts: 62 },
-          { cidr: "/28", purpose: "Management", hosts: 14 }
-        ],
-        estimatedSavings: 800
-      },
-      {
-        name: "Hybrid Cloud Connectivity",
-        description: "Optimized for on-premises integration with dedicated connectivity",
-        subnets: [
-          { cidr: "/25", purpose: "Hybrid Workloads", hosts: 126 },
-          { cidr: "/27", purpose: "VPN Gateway", hosts: 30 },
-          { cidr: "/28", purpose: "Directory Services", hosts: 14 }
-        ],
-        estimatedSavings: 2000
-      },
-      {
-        name: "High-Performance Computing",
-        description: "Optimized for compute-intensive workloads with high-bandwidth requirements",
-        subnets: [
-          { cidr: "/24", purpose: "Compute Cluster", hosts: 254 },
-          { cidr: "/26", purpose: "Storage Network", hosts: 62 },
-          { cidr: "/28", purpose: "Management Network", hosts: 14 }
-        ],
-        estimatedSavings: 1500
-      },
-      {
-        name: "Development/Staging Environment",
-        description: "Cost-optimized setup for development and testing environments",
-        subnets: [
-          { cidr: "/26", purpose: "Development Servers", hosts: 62 },
-          { cidr: "/27", purpose: "Testing Environment", hosts: 30 },
-          { cidr: "/28", purpose: "CI/CD Pipeline", hosts: 14 }
-        ],
-        estimatedSavings: 600
-      }
-    ];
-    
+    const scenarios: AdvancedScenario[] = [{
+      name: "Multi-Tier Web Application",
+      description: "Optimized for web, app, and database tiers with security segmentation",
+      subnets: [{
+        cidr: "/26",
+        purpose: "Web Tier (Public)",
+        hosts: 62
+      }, {
+        cidr: "/25",
+        purpose: "Application Tier (Private)",
+        hosts: 126
+      }, {
+        cidr: "/27",
+        purpose: "Database Tier (Private)",
+        hosts: 30
+      }],
+      estimatedSavings: 1200
+    }, {
+      name: "Microservices Architecture",
+      description: "Container-optimized subnetting for Kubernetes/ECS workloads",
+      subnets: [{
+        cidr: "/24",
+        purpose: "Container Nodes",
+        hosts: 254
+      }, {
+        cidr: "/26",
+        purpose: "Load Balancers",
+        hosts: 62
+      }, {
+        cidr: "/28",
+        purpose: "Management",
+        hosts: 14
+      }],
+      estimatedSavings: 800
+    }, {
+      name: "Hybrid Cloud Connectivity",
+      description: "Optimized for on-premises integration with dedicated connectivity",
+      subnets: [{
+        cidr: "/25",
+        purpose: "Hybrid Workloads",
+        hosts: 126
+      }, {
+        cidr: "/27",
+        purpose: "VPN Gateway",
+        hosts: 30
+      }, {
+        cidr: "/28",
+        purpose: "Directory Services",
+        hosts: 14
+      }],
+      estimatedSavings: 2000
+    }, {
+      name: "High-Performance Computing",
+      description: "Optimized for compute-intensive workloads with high-bandwidth requirements",
+      subnets: [{
+        cidr: "/24",
+        purpose: "Compute Cluster",
+        hosts: 254
+      }, {
+        cidr: "/26",
+        purpose: "Storage Network",
+        hosts: 62
+      }, {
+        cidr: "/28",
+        purpose: "Management Network",
+        hosts: 14
+      }],
+      estimatedSavings: 1500
+    }, {
+      name: "Development/Staging Environment",
+      description: "Cost-optimized setup for development and testing environments",
+      subnets: [{
+        cidr: "/26",
+        purpose: "Development Servers",
+        hosts: 62
+      }, {
+        cidr: "/27",
+        purpose: "Testing Environment",
+        hosts: 30
+      }, {
+        cidr: "/28",
+        purpose: "CI/CD Pipeline",
+        hosts: 14
+      }],
+      estimatedSavings: 600
+    }];
     setScenarios(scenarios);
   };
 
@@ -334,17 +351,15 @@ const AdvancedNetworkCalculator = () => {
   useEffect(() => {
     generateAdvancedScenarios();
   }, []);
-
-  return (
-    <div className="w-full max-w-7xl mx-auto space-y-8">
+  return <div className="w-full max-w-7xl mx-auto space-y-8">
       <Card className="bg-gradient-secondary border-0 shadow-medium">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl">
+          <CardTitle className="flex items-center gap-2 text-2xl text-slate-950">
             <Calculator className="h-6 w-6 text-primary" />
             Advanced Cloud Network Calculator
             <Badge variant="secondary" className="ml-2">Professional Edition</Badge>
           </CardTitle>
-          <CardDescription className="text-lg">
+          <CardDescription className="text-lg text-slate-950">
             Enterprise-grade networking calculations with real-time pricing, VLSM optimization, and compliance-ready configurations
           </CardDescription>
         </CardHeader>
@@ -390,12 +405,7 @@ const AdvancedNetworkCalculator = () => {
                   <SubnettingTooltip>
                     <Label htmlFor="ip-address">Network Address</Label>
                   </SubnettingTooltip>
-                  <Input
-                    id="ip-address"
-                    value={ipAddress}
-                    onChange={(e) => setIpAddress(e.target.value)}
-                    placeholder="10.0.0.0"
-                  />
+                  <Input id="ip-address" value={ipAddress} onChange={e => setIpAddress(e.target.value)} placeholder="10.0.0.0" />
                 </div>
                 <div className="space-y-2">
                   <SubnettingTooltip>
@@ -406,23 +416,15 @@ const AdvancedNetworkCalculator = () => {
                       <SelectValue placeholder="Select CIDR" />
                     </SelectTrigger>
                     <SelectContent>
-                      {[16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30].map((cidr) => (
-                        <SelectItem key={cidr} value={cidr.toString()}>
+                      {[16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30].map(cidr => <SelectItem key={cidr} value={cidr.toString()}>
                           /{cidr} ({Math.pow(2, 32 - cidr) - 2} hosts)
-                        </SelectItem>
-                      ))}
+                        </SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="hosts-needed">Required Hosts</Label>
-                  <Input
-                    id="hosts-needed"
-                    value={hostsNeeded}
-                    onChange={(e) => setHostsNeeded(e.target.value)}
-                    placeholder="254"
-                    type="number"
-                  />
+                  <Input id="hosts-needed" value={hostsNeeded} onChange={e => setHostsNeeded(e.target.value)} placeholder="254" type="number" />
                 </div>
                 <div className="space-y-2">
                   <ProfessionalTooltip content="Number of availability zones for high availability and disaster recovery">
@@ -482,8 +484,7 @@ const AdvancedNetworkCalculator = () => {
             </CardContent>
           </Card>
 
-          {results && (
-            <Card className="border-primary/20 shadow-medium">
+          {results && <Card className="border-primary/20 shadow-medium">
               <CardHeader>
                 <CardTitle className="text-primary flex items-center gap-2">
                   <Shield className="h-5 w-5" />
@@ -520,14 +521,13 @@ const AdvancedNetworkCalculator = () => {
                   <div className="space-y-1">
                     <Label className="text-sm font-medium text-muted-foreground">IP Utilization</Label>
                     <div className="flex items-center gap-2">
-                      <Progress value={(parseInt(hostsNeeded) / results.usableHosts) * 100} className="flex-1" />
-                      <span className="text-sm">{((parseInt(hostsNeeded) / results.usableHosts) * 100).toFixed(1)}%</span>
+                      <Progress value={parseInt(hostsNeeded) / results.usableHosts * 100} className="flex-1" />
+                      <span className="text-sm">{(parseInt(hostsNeeded) / results.usableHosts * 100).toFixed(1)}%</span>
                     </div>
                   </div>
                 </div>
                 
-                {results.vlsmRecommendation && (
-                  <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
+                {results.vlsmRecommendation && <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
                     <div className="flex items-start gap-2">
                       <Zap className="h-5 w-5 text-accent mt-0.5" />
                       <div>
@@ -535,11 +535,9 @@ const AdvancedNetworkCalculator = () => {
                         <p className="text-sm text-muted-foreground mt-1">{results.vlsmRecommendation}</p>
                       </div>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </CardContent>
-            </Card>
-          )}
+            </Card>}
         </TabsContent>
 
         <TabsContent value="realtime-costs" className="space-y-6">
@@ -591,23 +589,11 @@ const AdvancedNetworkCalculator = () => {
                   <CloudCostTooltip>
                     <Label htmlFor="data-transfer">Data Transfer (GB/month)</Label>
                   </CloudCostTooltip>
-                  <Input
-                    id="data-transfer"
-                    value={dataTransfer}
-                    onChange={(e) => setDataTransfer(e.target.value)}
-                    placeholder="1000"
-                    type="number"
-                  />
+                  <Input id="data-transfer" value={dataTransfer} onChange={e => setDataTransfer(e.target.value)} placeholder="1000" type="number" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="instances">Compute Instances</Label>
-                  <Input
-                    id="instances"
-                    value={instances}
-                    onChange={(e) => setInstances(e.target.value)}
-                    placeholder="5"
-                    type="number"
-                  />
+                  <Input id="instances" value={instances} onChange={e => setInstances(e.target.value)} placeholder="5" type="number" />
                 </div>
               </div>
               
@@ -617,8 +603,7 @@ const AdvancedNetworkCalculator = () => {
             </CardContent>
           </Card>
 
-          {costEstimate && (
-            <Card className="border-success/20 shadow-medium">
+          {costEstimate && <Card className="border-success/20 shadow-medium">
               <CardHeader>
                 <CardTitle className="text-success flex items-center gap-2">
                   <DollarSign className="h-5 w-5" />
@@ -633,11 +618,9 @@ const AdvancedNetworkCalculator = () => {
                       ${costEstimate.estimatedCost.toFixed(2)}
                     </div>
                     <div className="text-muted-foreground">Monthly Estimate</div>
-                    {costEstimate.savingsOpportunities > 0 && (
-                      <div className="text-success font-medium">
+                    {costEstimate.savingsOpportunities > 0 && <div className="text-success font-medium">
                         Potential Savings: ${costEstimate.savingsOpportunities.toFixed(2)}
-                      </div>
-                    )}
+                      </div>}
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
@@ -663,22 +646,17 @@ const AdvancedNetworkCalculator = () => {
                   </div>
                 </div>
                 
-                {costEstimate.recommendations.length > 0 && (
-                  <div className="p-4 bg-warning/10 rounded-lg border border-warning/20">
+                {costEstimate.recommendations.length > 0 && <div className="p-4 bg-warning/10 rounded-lg border border-warning/20">
                     <div className="flex items-start gap-2">
                       <AlertTriangle className="h-5 w-5 text-warning mt-0.5" />
                       <div className="space-y-2">
                         <Label className="font-medium text-warning">Cost Optimization Recommendations</Label>
-                        {costEstimate.recommendations.map((rec, index) => (
-                          <p key={index} className="text-sm text-muted-foreground">• {rec}</p>
-                        ))}
+                        {costEstimate.recommendations.map((rec, index) => <p key={index} className="text-sm text-muted-foreground">• {rec}</p>)}
                       </div>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </CardContent>
-            </Card>
-          )}
+            </Card>}
         </TabsContent>
 
         <TabsContent value="scenarios" className="space-y-6">
@@ -694,8 +672,7 @@ const AdvancedNetworkCalculator = () => {
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
-                {scenarios.map((scenario, index) => (
-                  <Card key={index} className="border-primary/10">
+                {scenarios.map((scenario, index) => <Card key={index} className="border-primary/10">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center justify-between">
                         {scenario.name}
@@ -705,19 +682,16 @@ const AdvancedNetworkCalculator = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        {scenario.subnets.map((subnet, subIndex) => (
-                          <div key={subIndex} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                        {scenario.subnets.map((subnet, subIndex) => <div key={subIndex} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                             <div>
                               <div className="font-medium">{subnet.purpose}</div>
                               <div className="text-sm text-muted-foreground">{subnet.hosts} hosts available</div>
                             </div>
                             <Badge variant="outline" className="font-mono">{subnet.cidr}</Badge>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                     </CardContent>
-                  </Card>
-                ))}
+                  </Card>)}
               </div>
             </CardContent>
           </Card>
@@ -854,37 +828,29 @@ const AdvancedNetworkCalculator = () => {
                 </div>
               </div>
 
-              {costEstimate && (
-                <>
+              {costEstimate && <>
                   <Separator />
                   <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
                     <h3 className="text-lg font-semibold text-primary mb-3">
                       Personalized Recommendations
                     </h3>
                     <div className="space-y-2">
-                      {costEstimate.recommendations.map((rec, index) => (
-                        <div key={index} className="flex items-start gap-2">
+                      {costEstimate.recommendations.map((rec, index) => <div key={index} className="flex items-start gap-2">
                           <div className="w-1 h-1 bg-primary rounded-full mt-2"></div>
                           <p className="text-sm">{rec}</p>
-                        </div>
-                      ))}
-                      {costEstimate.savingsOpportunities > 0 && (
-                        <div className="mt-4 p-3 bg-green-50 dark:bg-green-950 rounded border border-green-200 dark:border-green-800">
+                        </div>)}
+                      {costEstimate.savingsOpportunities > 0 && <div className="mt-4 p-3 bg-green-50 dark:bg-green-950 rounded border border-green-200 dark:border-green-800">
                           <div className="text-green-700 dark:text-green-300 font-medium">
                             💰 Potential Monthly Savings: ${costEstimate.savingsOpportunities.toFixed(2)}
                           </div>
-                        </div>
-                      )}
+                        </div>}
                     </div>
                   </div>
-                </>
-              )}
+                </>}
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
-
 export default AdvancedNetworkCalculator;
