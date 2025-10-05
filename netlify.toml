@@ -1,0 +1,14 @@
+# Netlify Configuration
+
+[[edge_functions]]
+  function = "seo"
+  path = "/*"
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
