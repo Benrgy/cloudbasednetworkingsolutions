@@ -1,0 +1,14 @@
+node_modules/
+.git/
+.github/
+*.log
+.env.local
+.env.development
+src/
+public/
+*.ts
+*.tsx
+tsconfig.json
+vite.config.ts
+package-lock.json
+README.md
