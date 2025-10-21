@@ -7,91 +7,14 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
-      audits: {
-        Row: {
-          created_at: string | null
-          id: string
-          result_json: Json | null
-          status: string
-          url: string
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          result_json?: Json | null
-          status?: string
-          url: string
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          result_json?: Json | null
-          status?: string
-          url?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      notifications: {
-        Row: {
-          created_at: string | null
-          id: string
-          message: string
-          read: boolean | null
-          type: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          message: string
-          read?: boolean | null
-          type: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          message?: string
-          read?: boolean | null
-          type?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      usage_analytics: {
-        Row: {
-          event_type: string
-          id: string
-          metadata: Json | null
-          timestamp: string | null
-          user_id: string | null
-        }
-        Insert: {
-          event_type: string
-          id?: string
-          metadata?: Json | null
-          timestamp?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          event_type?: string
-          id?: string
-          metadata?: Json | null
-          timestamp?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
