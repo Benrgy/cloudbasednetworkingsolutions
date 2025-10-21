@@ -18,7 +18,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename={location.hostname.endsWith('github.io') ? '/cloudbasednetworkingsolutions' : undefined}>
+          <BrowserRouter basename={import.meta.env.BASE_URL && import.meta.env.BASE_URL !== '/' ? import.meta.env.BASE_URL.replace(/\/$/, '') : undefined}>
             <SEOWrapper>
               <Routes>
                 <Route path="/" element={<Index />} />
