@@ -10,15 +10,25 @@ echo "Starting deployment..."
 echo "Installing dependencies..."
 npm ci --production=false
 
-# Build the project
+# Build the project with explicit base path for root deployment
 echo "Building project..."
-npm run build
+npm run build -- --base=/
 
 # Verify build output exists
 if [ ! -d "dist" ]; then
   echo "❌ Build failed: dist directory not found" >&2
   exit 1
 fi
+
+# Verify index.html exists
+if [ ! -f "dist/index.html" ]; then
+  echo "❌ Build verification failed: index.html not found" >&2
+  exit 1
+fi
+
+# Log built assets for debugging
+echo "Built assets:"
+ls -lah dist/
 
 # Ensure web root exists and is clean
 mkdir -p public_html
