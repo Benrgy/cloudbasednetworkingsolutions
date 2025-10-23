@@ -35,3 +35,11 @@
   ExpiresByType text/javascript "access plus 1 month"
   ExpiresByType application/font-woff2 "access plus 1 year"
 </IfModule>
+
+# Explicit MIME types for modern browsers
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType text/css .css
+  AddType application/json .json
+  AddType application/wasm .wasm
+</IfModule>

@@ -4,11 +4,7 @@ node_modules/
 *.log
 .env.local
 .env.development
-src/
-public/
-*.ts
-*.tsx
-tsconfig.json
-vite.config.ts
-package-lock.json
-README.md
+
+# IMPORTANT: Include source files for server build
+# Do NOT ignore src/, public/, or TypeScript files
+# Cloudways post-deploy hook will build and publish to public_html
