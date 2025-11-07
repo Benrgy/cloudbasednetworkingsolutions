@@ -7,15 +7,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Network, AlertCircle } from "lucide-react";
 import { ProfessionalTooltip, SubnettingTooltip, SecurityTooltip } from "../ProfessionalTooltips";
+import { NetworkDiagramVisualizer } from "../NetworkDiagramVisualizer";
 
 interface SubnetResult {
   networkAddress: string;
   broadcastAddress: string;
   usableHosts: number;
+  usableRange?: string;
   subnetMask: string;
   cidr: string;
   totalIPs: number;
   vlsmRecommendation?: string;
+  vlsmRecommendations?: Array<{
+    hosts: number;
+    cidr: string;
+    mask: string;
+    network: string;
+  }>;
   securityScore: number;
 }
 
@@ -251,6 +259,19 @@ const SubnetCalculatorTab: React.FC<SubnetCalculatorTabProps> = ({
             )}
           </CardContent>
         </Card>
+      )}
+
+      {results && results.usableRange && (
+        <NetworkDiagramVisualizer
+          networkAddress={results.networkAddress}
+          broadcastAddress={results.broadcastAddress}
+          usableRange={results.usableRange}
+          subnetMask={results.subnetMask}
+          cidr={results.cidr}
+          totalIPs={results.totalIPs}
+          usableHosts={results.usableHosts}
+          vlsmRecommendations={results.vlsmRecommendations}
+        />
       )}
     </div>
   );

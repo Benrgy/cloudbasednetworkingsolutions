@@ -6,10 +6,17 @@ interface SubnetResult {
   networkAddress: string;
   broadcastAddress: string;
   usableHosts: number;
+  usableRange?: string;
   subnetMask: string;
   cidr: string;
   totalIPs: number;
   vlsmRecommendation?: string;
+  vlsmRecommendations?: Array<{
+    hosts: number;
+    cidr: string;
+    mask: string;
+    network: string;
+  }>;
   securityScore: number;
 }
 
@@ -134,19 +141,62 @@ export const useSubnetCalculation = () => {
       const securityScore = calculateSecurityScore(mask, parseInt(availabilityZones), complianceLevel);
 
       // Network address calculation
-      const networkAddress = ip.slice(0, 3).join('.') + '.0';
-      const broadcastOctet = Math.min(255, ip[3] + Math.pow(2, Math.min(networkBits, 8)) - 1);
-      const broadcastAddress = ip.slice(0, 3).join('.') + '.' + broadcastOctet;
+      const maskBits = (0xffffffff << (32 - mask)) >>> 0;
+      const networkAddr = ip.map((octet, i) => 
+        octet & ((maskBits >>> (24 - i * 8)) & 0xff)
+      );
+      const broadcastAddr = networkAddr.map((octet, i) => 
+        octet | (~((maskBits >>> (24 - i * 8)) & 0xff) & 0xff)
+      );
+      
+      const networkAddress = networkAddr.join('.');
+      const broadcastAddress = broadcastAddr.join('.');
       const subnetMaskAddr = calculateSubnetMask(mask);
+      
+      // Calculate usable IP range
+      const firstUsable = [...networkAddr];
+      firstUsable[3] += 1;
+      const lastUsable = [...broadcastAddr];
+      lastUsable[3] -= 1;
+      const usableRange = `${firstUsable.join('.')} - ${lastUsable.join('.')}`;
+      
+      // Generate VLSM recommendations if subnet is larger than needed
+      const vlsmRecommendations: Array<{
+        hosts: number;
+        cidr: string;
+        mask: string;
+        network: string;
+      }> = [];
+      
+      if (hostsRequired < usableHosts && hostsRequired > 0) {
+        // Create 3-4 VLSM subnets based on requirements
+        const optimalBits = 32 - getOptimalCIDR(hostsRequired);
+        const subnetSize = Math.pow(2, optimalBits);
+        const maxSubnets = Math.min(4, Math.floor(totalHosts / subnetSize));
+        
+        for (let i = 0; i < maxSubnets; i++) {
+          const subnetNetwork = [...networkAddr];
+          subnetNetwork[3] = (subnetNetwork[3] + (i * subnetSize)) % 256;
+          
+          vlsmRecommendations.push({
+            hosts: subnetSize - 2,
+            cidr: `/${32 - optimalBits}`,
+            mask: calculateSubnetMask(32 - optimalBits),
+            network: subnetNetwork.join('.')
+          });
+        }
+      }
 
       const result: SubnetResult = {
         networkAddress,
         broadcastAddress,
+        usableRange,
         usableHosts,
         subnetMask: subnetMaskAddr,
         cidr: `/${mask}`,
         totalIPs: totalHosts,
         vlsmRecommendation,
+        vlsmRecommendations: vlsmRecommendations.length > 0 ? vlsmRecommendations : undefined,
         securityScore
       };
 
