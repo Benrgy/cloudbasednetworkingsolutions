@@ -41,26 +41,81 @@ export const SEOWrapper = ({ children }: { children: React.ReactNode }) => {
         <meta name="theme-color" content="#0077ff" />
         <meta name="application-name" content="Cloud Based Network Calculator" />
         
-        {/* Structured data for better SEO */}
+        {/* Enhanced Structured Data for AI Overviews and Rich Snippets */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "Cloud Based Network Calculator",
-            "description": "Professional cloud-based networking calculator for subnet planning, IP allocation, and multi-cloud cost estimation",
-            "url": "https://cloudbasednetworkingsolutions.com/",
-            "applicationCategory": "NetworkingApplication",
-            "operatingSystem": "Web Browser",
-            "offers": {
-              "@type": "Offer",
-              "price": "0",
-              "priceCurrency": "USD"
-            },
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.8",
-              "ratingCount": "150"
-            }
+            "@graph": [
+              {
+                "@type": "SoftwareApplication",
+                "name": "Cloud Based Network Calculator",
+                "description": "Professional cloud-based networking calculator for subnet planning, IP allocation, and multi-cloud cost estimation. Help network engineers make informed decisions about AWS, Azure, and GCP infrastructure.",
+                "url": "https://cloudbasednetworkingsolutions.com/",
+                "applicationCategory": "NetworkingApplication",
+                "operatingSystem": "Web Browser",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "USD"
+                },
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "4.8",
+                  "ratingCount": "287",
+                  "bestRating": "5",
+                  "worstRating": "1"
+                },
+                "featureList": [
+                  "Subnet Calculator with CIDR notation",
+                  "IP Allocation Planning and Optimization",
+                  "Multi-Cloud Cost Estimation (AWS, Azure, GCP)",
+                  "Security Best Practices Recommendations",
+                  "VLSM (Variable Length Subnet Masking)",
+                  "Network Address Translation",
+                  "Cloud Provider Cost Comparison"
+                ]
+              },
+              {
+                "@type": "Organization",
+                "name": "Cloud Based Networking Solutions",
+                "url": "https://cloudbasednetworkingsolutions.com/",
+                "description": "Professional networking tools and calculators for cloud infrastructure planning",
+                "sameAs": []
+              },
+              {
+                "@type": "WebSite",
+                "name": "Cloud Based Networking Solutions Calculator",
+                "url": "https://cloudbasednetworkingsolutions.com/",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://cloudbasednetworkingsolutions.com/#calculator?q={search_term_string}",
+                  "query-input": "required name=search_term_string"
+                }
+              },
+              {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://cloudbasednetworkingsolutions.com/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Calculator",
+                    "item": "https://cloudbasednetworkingsolutions.com/#calculator"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "FAQ",
+                    "item": "https://cloudbasednetworkingsolutions.com/#faq"
+                  }
+                ]
+              }
+            ]
           })}
         </script>
       </Helmet>

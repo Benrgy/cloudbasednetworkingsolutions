@@ -3,10 +3,14 @@ import React, { useEffect, lazy, Suspense } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Cloud, Calculator, Network, Zap, ArrowRight, CheckCircle, TrendingUp, Shield } from "lucide-react";
+import { Cloud, Calculator, Network, Zap, ArrowRight, CheckCircle, TrendingUp, Shield, GitCompare } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import { ProfessionalTooltip } from "@/components/ProfessionalTooltips";
 import { useAnalytics } from "@/components/AnalyticsTracker";
+import { EnhancedFAQSchema } from "@/components/EnhancedFAQSchema";
+import { HowToSchema } from "@/components/HowToSchema";
+import { DecisionHelper } from "@/components/DecisionHelper";
+import { CloudProviderComparison } from "@/components/CloudProviderComparison";
 
 // Lazy load heavy components for better performance
 const AdvancedNetworkCalculator = lazy(() => import("@/components/AdvancedNetworkCalculator"));
@@ -80,6 +84,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Enhanced Schema Markup for AI Overviews */}
+      <EnhancedFAQSchema />
+      <HowToSchema />
+      
       {/* Skip to main content link for accessibility */}
       <a 
         href="#main-content" 
@@ -184,6 +192,15 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Decision Helper Section */}
+      <section className="py-20 bg-gradient-to-b from-background to-muted/30" role="region" aria-labelledby="decision-helper-heading">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <DecisionHelper />
+          </div>
+        </div>
+      </section>
+
       {/* Calculator Section */}
       <main id="main-content">
         <section id="calculator" className="py-20" role="region" aria-labelledby="calculator-heading">
@@ -201,8 +218,24 @@ const Index = () => {
         </section>
       </main>
 
+      {/* Cloud Provider Comparison Section */}
+      <section id="comparison" className="py-20 bg-muted/30" role="region" aria-labelledby="comparison-heading">
+        <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-16">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <GitCompare className="h-8 w-8 text-primary" />
+              <h2 id="comparison-heading" className="text-3xl md:text-4xl font-bold">Compare Cloud Providers</h2>
+            </div>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Make informed decisions with detailed feature and pricing comparisons
+            </p>
+          </div>
+          <CloudProviderComparison />
+        </div>
+      </section>
+
       {/* Benefits Section */}
-      <section id="benefits" className="py-20 bg-muted/30" role="region" aria-labelledby="benefits-heading">
+      <section id="benefits" className="py-20" role="region" aria-labelledby="benefits-heading">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 id="benefits-heading" className="text-3xl md:text-4xl font-bold">Why Choose Our Calculator</h2>

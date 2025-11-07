@@ -10,13 +10,13 @@ export interface SEOConfig {
 
 export const seoConfigs: Record<string, SEOConfig> = {
   '/': {
-    title: 'Cloud Based Network Calculator - Professional IP & Subnet Tools',
-    description: 'Professional cloud-based networking calculator for subnet planning, IP allocation, multi-cloud cost estimation, and security optimization. Advanced tools for network engineers and infrastructure professionals.',
-    keywords: 'subnet calculator, IP allocation, cloud networking, network planning, CIDR calculator, cloud cost estimation, AWS networking, Azure networking, GCP networking, network security',
-    ogTitle: 'Cloud Based Network Calculator - Professional Networking Tools',
-    ogDescription: 'Advanced subnet calculator, IP allocation planner, and multi-cloud cost estimation tools for network engineers and cloud architects.',
-    twitterTitle: 'Cloud Based Network Calculator - Pro Tools',
-    twitterDescription: 'Professional networking tools for subnet calculation, IP planning, and cloud cost estimation. Used by network engineers worldwide.'
+    title: 'Cloud Network Calculator 2025 - Free Subnet, IP & Cost Calculator | AWS, Azure, GCP',
+    description: 'Professional cloud network calculator with subnet planning, IP allocation, and multi-cloud cost comparison. Calculate CIDR, VLSM, and estimate networking costs for AWS, Azure, and GCP. Free decision helper included.',
+    keywords: 'subnet calculator 2025, cloud network calculator, IP calculator free, CIDR calculator, AWS subnet calculator, Azure network calculator, GCP networking, cloud cost calculator, VLSM calculator, network planning tool, IP allocation calculator, multi-cloud comparison',
+    ogTitle: 'Free Cloud Network Calculator - Subnet, IP & Cost Estimation Tool 2025',
+    ogDescription: 'Calculate subnets, plan IP allocation, and compare cloud networking costs across AWS, Azure, and GCP. Professional tools with AI-powered recommendations for network engineers.',
+    twitterTitle: 'Cloud Network Calculator - Free Subnet & IP Tools',
+    twitterDescription: 'Professional subnet calculator, IP planner, and cloud cost estimator. Make informed networking decisions with our free calculator tools.'
   },
   '/calculator': {
     title: 'Network Calculator Tools - Subnet & IP Allocation Calculator',
