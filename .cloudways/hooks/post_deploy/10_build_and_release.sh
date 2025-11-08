@@ -33,6 +33,23 @@ if [ -f ".htaccess" ]; then
   cp .htaccess public_html/
 fi
 
+# Create deploy metadata to verify freshness in browser
+GIT_COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo "no-git")
+BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+{
+  echo "commit: $GIT_COMMIT"
+  echo "built_at: $BUILD_TIME"
+  echo "node: $(node -v)"
+  echo "npm: $(npm -v)"
+} > public_html/deploy-info.txt
+
+cat > public_html/version.json <<EOF
+{
+  "commit": "$GIT_COMMIT",
+  "builtAt": "$BUILD_TIME"
+}
+EOF
+
 # Set safe permissions
 find public_html -type d -exec chmod 755 {} \;
 find public_html -type f -exec chmod 644 {} \;

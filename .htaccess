@@ -36,6 +36,17 @@
   ExpiresByType application/font-woff2 "access plus 1 year"
 </IfModule>
 
+# Disable caching for HTML to ensure fresh deployments are visible immediately
+<IfModule mod_headers.c>
+  <FilesMatch "\\.(html)$">
+    FileETag None
+    Header unset ETag
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "Mon, 07 Oct 1991 00:00:00 GMT"
+  </FilesMatch>
+</IfModule>
+
 # Explicit MIME types for modern browsers
 <IfModule mod_mime.c>
   AddType application/javascript .js
