@@ -1,3 +1,5 @@
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -38,7 +40,7 @@
 
 # Disable caching for HTML to ensure fresh deployments are visible immediately
 <IfModule mod_headers.c>
-  <FilesMatch "\\.(html)$">
+  <FilesMatch "\.(html)$">
     FileETag None
     Header unset ETag
     Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
