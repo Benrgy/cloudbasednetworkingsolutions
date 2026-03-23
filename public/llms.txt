@@ -1,0 +1,8 @@
+# Cloudbased Networking Solutions
+
+> Professional cloud networking tools: subnet calculator, IP allocation planner and cloud cost estimator for network engineers.
+
+This site provides information about cloudbased networking solutions.
+
+URL: https://cloudbasednetworkingsolutions.com/
+Sitemap: https://cloudbasednetworkingsolutions.com/sitemap.xml
